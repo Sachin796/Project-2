@@ -1,27 +1,24 @@
 $(document).ready(function() {
-  // Get references to page elements\
+  //LOCALSTORAGE TEMP STORE, UNTIL LOGIN FUNCTIONALITY.
+  localStorage.setItem("user", "testing123");
 
-  //example data
-  let expenses = [
-    {
-      item: "Shoes",
-      price: 12.99,
-      location: [43.6507, -79.307015],
-      type: "Clothing"
-    },
-    {
-      item: "food",
-      price: 12.99,
-      location: [43.6507, -79.327015],
-      type: "Food"
-    },
-    {
-      item: "SOCKS SOCKS SADSADSADSADASDASDSADASDSADAS",
-      price: 12.99,
-      location: [43.6507, -79.317015],
-      type: "Clothing"
-    }
-  ];
+  //INIT THE NAVBAR
+  $(".sidenav").sidenav();
+  $(".sidenav").css({ zIndex: 9999 });
+
+  //example data, to be replaced by API call of expenses.
+
+  const getExpense = () => {
+    let user = localStorage.getItem("user");
+    fetch(`/api/expense/${user}`)
+      .then(res => {
+        //RESPONSE FROM SERVER
+        console.log(res);
+      })
+      .catch(err => {
+        throw err;
+      });
+  };
 
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 13);
 
@@ -33,13 +30,13 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
-  expenses.forEach(ele => {
-    console.log(ele.type);
-    if (ele.type === "Clothing") {
-      var marker = L.marker(ele.location).addTo(myMap);
-      marker.bindPopup(`<b>${ele.item}</b><br><span>$${ele.price}</span>`);
-    }
-  });
+  // expenses.forEach(ele => {
+  //   console.log(ele.type);
+  //   if (ele.type === "Clothing") {
+  //     var marker = L.marker(ele.location).addTo(myMap);
+  //     marker.bindPopup(`<b>${ele.item}</b><br><span>$${ele.price}</span>`);
+  //   }
+  // });
 
   //   var marker = L.marker([43.65207, -79.347015]).addTo(myMap);
   //   marker.bindPopup("<b>Hello world!</b><br>I am a popup.");

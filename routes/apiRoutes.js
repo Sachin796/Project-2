@@ -8,6 +8,21 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/api/expense/:user", (req, resp) => {
+    db.expenses
+      .findAll({
+        where: {
+          user: req.params.user
+        }
+      })
+      .then(res => {
+        resp.json(res);
+      })
+      .catch(err => {
+        throw err;
+      });
+  });
+
   // Create a new example
   app.post("/api/examples", function(req, res) {
     db.Example.create(req.body).then(function(dbExample) {

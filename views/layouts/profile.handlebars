@@ -3,6 +3,9 @@
 
 <head>
 	<meta charset="utf-8">
+	{{!-- ICONS --}}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	{{!-- Jquery --}}
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,7 +24,28 @@
 </head>
 
 <body>
-	<h1>PROFILE</h1>
+	{{!-- NAVBAR --}}
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#!" class="brand-logo">Financr</a>
+			<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
+					class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="/">Home</a></li>
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="/budget">New Budget</a></li>
+				<li><a href="/locations">Map</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<ul class="sidenav" id="mobile-demo">
+		<li><a href="/">Home</a></li>
+		<li><a href="/profile">Profile</a></li>
+		<li><a href="/budget">New Budget</a></li>
+		<li><a href="/locations">Map</a></li>
+	</ul>
+	{{!-- NAVBAR --}}
 	{{{body}}}
 </body>
 
