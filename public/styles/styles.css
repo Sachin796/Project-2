@@ -1,3 +1,9 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+#weatherMap {
+  text-align: center;
+  width: 75%;
+  height: 50em;
+}
