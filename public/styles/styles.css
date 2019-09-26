@@ -5,5 +5,12 @@
 #weatherMap {
   text-align: center;
   width: 75%;
-  height: 50em;
+  height: 40em;
+}
+
+.map-container {
+  margin-top: 2em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

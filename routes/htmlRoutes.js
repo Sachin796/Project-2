@@ -18,11 +18,6 @@ module.exports = function(app) {
     resp.render("profilePage", { layout: "profile" });
   });
 
-  //PROFILE ENDPOINT
-  app.get("/map", (req, resp) => {
-    resp.render("mapPage", { layout: "map" });
-  });
-
   // Render 404 page for any unmatched routes
   app.get("*", function(req, resp) {
     resp.render("404");
