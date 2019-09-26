@@ -4,10 +4,7 @@ module.exports = function(app) {
   // Load index page
   app.get("/", function(req, resp) {
     db.Example.findAll({}).then(function(dbExamples) {
-      resp.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
+      resp.render("index", {});
     });
   });
 
@@ -19,14 +16,6 @@ module.exports = function(app) {
   //PROFILE ENDPOINT
   app.get("/profile", (req, resp) => {
     resp.render("profilePage", { layout: "profile" });
-  });
-  // Load example page and pass in an example by id
-  app.get("/example/:id", function(req, resp) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
-      resp.render("example", {
-        example: dbExample
-      });
-    });
   });
 
   // Render 404 page for any unmatched routes
