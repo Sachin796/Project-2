@@ -18,6 +18,10 @@ module.exports = function(app) {
     resp.render("profilePage", { layout: "profile" });
   });
 
+  app.get("/register", (req, resp) => {
+    resp.render("registerPage", { layout: "register" });
+  });
+
   // Render 404 page for any unmatched routes
   app.get("*", function(req, resp) {
     resp.render("404");

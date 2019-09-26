@@ -6,8 +6,6 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
 
-  //example data, to be replaced by API call of expenses.
-
   const getExpense = () => {
     let user = localStorage.getItem("user");
     fetch(`/api/expense/${user}`)
