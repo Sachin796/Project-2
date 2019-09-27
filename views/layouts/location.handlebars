@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	{{!-- ICONS --}}
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	{{!-- Jquery --}}
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	{{!-- Leaflet --}}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin="" />
+	<!-- Make sure you put this AFTER Leaflet's CSS -->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+		integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+		crossorigin=""></script>
+	<!-- Compiled and minified MATERIALIZE CSS -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Compiled and minified MATERIALIZE JavaScript -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!--local CSS--->
+	<link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title"
+		charset="utf-8">
+	<!--local JS--->
+	<script src="/js/map.js"></script>
+	<title>Geo Spending</title>
+</head>
+
+<body>
+	{{!-- NAVBAR --}}
+	<nav>
+		<div class="nav-wrapper">
+			<a href="/" class="brand-logo">Financr</a>
+			<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
+					class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="/">Home</a></li>
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="/budget">New Budget</a></li>
+				<li><a href="/locations">Map</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<ul class="sidenav" id="mobile-demo">
+		<li><a href="/">Home</a></li>
+		<li><a href="/profile">Profile</a></li>
+		<li><a href="/budget">New Budget</a></li>
+		<li><a href="/locations">Map</a></li>
+	</ul>
+	{{!-- NAVBAR --}}
+	<main>
+		{{{body}}}
+	</main>
+</body>
+<footer></footer>
+
+</html>
