@@ -1,20 +1,23 @@
 <h1>REGISTER PAGE</h1>
 <div class="container">
+	<span>HELLO {{error}}</span>
 	<div class="row">
 		<form class="col s12">
 			<div class="row">
 				<div class="input-field col s6">
-					<input id="first_name" type="text" class="validate">
-					<label for="first_name">Username</label>
+					<input value="{{username}}" id="username" type="text"
+						class="validate">
+					<label for="username">Username</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field col s6">
-					<input id="password" type="password" class="validate">
+					<input value="{{password}}" id="password" type="password"
+						class="validate">
 					<label for="password">Password</label>
 				</div>
 			</div>
-			<a class="waves-effect waves-light btn-small"><i
+			<a id="submit" class="waves-effect waves-light btn-small"><i
 					class="material-icons right">send</i>Submit</a>
 		</form>
 	</div>
