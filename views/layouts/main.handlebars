@@ -25,7 +25,7 @@
   <nav>
     <div class="nav-wrapper">
       <a href="/" class="brand-logo">Financr</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i
+      <a href="#" data-target="toggleMenu" class="sidenav-trigger"><i
           class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="/">Home</a></li>
@@ -36,14 +36,43 @@
     </div>
   </nav>
 
-  <ul class="sidenav" id="mobile-demo">
+  <ul class="sidenav" id="toggleMenu">
     <li><a href="/">Home</a></li>
     <li><a href="/profile">Profile</a></li>
     <li><a href="/budget">New Budget</a></li>
     <li><a href="/locations">Map</a></li>
   </ul>
   {{!-- NAVBAR --}}
-  {{{body}}}
+  <main>
+    {{{body}}}
+  </main>
 </body>
+
+<footer class="page-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">Footer Content</h5>
+        <p class="grey-text text-lighten-4">You can use rows and columns here to organize
+          your footer content.</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Links</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+          <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      Created by Andrew, Sachin, and Manjyot
+      <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
+  </div>
+</footer>
 
 </html>
