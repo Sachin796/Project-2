@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       budget: {
-        type:  DataTypes.INTEGER,
+        type:  DataTypes.FLOAT,
         allowNull: false,
         validate: {
         len: [1]
