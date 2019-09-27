@@ -206,7 +206,7 @@ INSERT INTO budgets (budget, date_from, date_to,createdAt,updatedAt,UserId) VALU
     (350.61,'Sports','Basketball','2019-09-27 00:00:00','2019-09-27 00:00:00',99,99),
     (22.79,'Outdoors','Tent','2019-09-27 00:00:00','2019-09-27 00:00:00',100,100);
 
-    INSERT INTO locations (address,createdAt,updatedAt,UserId) VALUES
+    INSERT INTO locations (address,UserId,createdAt,updatedAt) VALUES
     ('5 Beilfuss Hill',1,'2019-09-27 00:00:00','2019-09-27 00:00:00'),
     ('072 Hudson Road',2,'2019-09-27 00:00:00','2019-09-27 00:00:00'),
     ('59 Eggendart Trail',3,'2019-09-27 00:00:00','2019-09-27 00:00:00'),
