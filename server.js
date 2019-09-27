@@ -16,9 +16,14 @@ app.use(express.static("public"));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+const authRoute = require("./routes/auth");
+
 // Routes
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
+
+//Auth Routing
+app.use("/api/auth", authRoute);
 
 var syncOptions = { force: false };
 

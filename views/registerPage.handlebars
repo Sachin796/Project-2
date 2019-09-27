@@ -1,25 +1,31 @@
 <h1>REGISTER PAGE</h1>
+{{#if username}}
+username: {{username}} already exists!
+{{/if}}
+
 <div class="container">
-	<span>HELLO {{error}}</span>
 	<div class="row">
-		<form class="col s12">
+		<form action="/api/auth/register" method="POST" class="col s12">
 			<div class="row">
 				<div class="input-field col s6">
-					<input value="{{username}}" id="username" type="text"
+					<input required name="username" id="username" type="text"
 						class="validate">
 					<label for="username">Username</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field col s6">
-					<input value="{{password}}" id="password" type="password"
-						class="validate">
-					<label for="password">Password</label>
+					<input required name="user_password" id="user_password"
+						type="password" class="validate">
+					<label for="user_password">Password</label>
 				</div>
 			</div>
-			<a id="submit" class="waves-effect waves-light btn-small"><i
-					class="material-icons right">send</i>Submit</a>
+			<button type="submit" id="submit"
+				class="waves-effect waves-light btn-small"><i
+					class="material-icons right">send</i>Submit</button>
 		</form>
+		<a href="/login">LOGIN PAGE</a>
+
 	</div>
 </div>
 <script src="/js/register.js"></script>
