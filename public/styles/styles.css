@@ -13,9 +13,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 10em;
 }
 
 body {
+  background-color: #f3f1ef;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
