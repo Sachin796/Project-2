@@ -6,7 +6,11 @@ var db = require("./models");
 
 var app = express();
 var PORT = process.env.PORT || 3000;
-
+const passport = require("passport");
+const initPassport = require("./passport-config.js");
+initPassport(passport, username => {
+  //send in the DB check for user.
+});
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
