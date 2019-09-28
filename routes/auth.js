@@ -3,6 +3,12 @@ const Router = express.Router();
 const db = require("../models");
 let bcrypt = require("bcrypt");
 
+const passport = require("passport");
+const initPassport = require("./passport-config.js");
+initPassport(passport, username => {
+  //send in the DB check for user.
+});
+
 Router.post("/register", async (req, resp) => {
   const user = {
     username: req.body.username,
