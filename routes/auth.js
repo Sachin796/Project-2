@@ -3,6 +3,12 @@ const Router = express.Router();
 const db = require("../models");
 let bcrypt = require("bcrypt");
 
+const passport = require("passport");
+const initPassport = require("./passport-config.js");
+initPassport(passport, username => {
+  //send in the DB check for user.
+});
+
 Router.post("/register", async (req, resp) => {
   const user = {
     username: req.body.username,
@@ -21,11 +27,15 @@ Router.post("/register", async (req, resp) => {
         await db.User.create({
           username: req.body.username,
           user_password: hashPass
-        }).then(res => {
-          //SUCCESS
-          console.log("SUCCESS");
-          resp.render("profilePage", req.body);
-        });
+        })
+          .then(res => {
+            //SUCCESS
+            console.log("SUCCESS");
+            resp.render("profilePage", req.body);
+          })
+          .catch(err => {
+            res.status(400).send(err);
+          });
       }
     });
   } catch (err) {
