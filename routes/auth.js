@@ -27,11 +27,15 @@ Router.post("/register", async (req, resp) => {
         await db.User.create({
           username: req.body.username,
           user_password: hashPass
-        }).then(res => {
-          //SUCCESS
-          console.log("SUCCESS");
-          resp.render("profilePage", req.body);
-        });
+        })
+          .then(res => {
+            //SUCCESS
+            console.log("SUCCESS");
+            resp.render("profilePage", req.body);
+          })
+          .catch(err => {
+            res.status(400).send(err);
+          });
       }
     });
   } catch (err) {
