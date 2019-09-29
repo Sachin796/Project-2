@@ -38,3 +38,9 @@ nav {
 #logo {
   height: 2em;
 }
+
+#heroText {
+  color: white;
+  position: absolute;
+  margin-left: 1em;
+}
