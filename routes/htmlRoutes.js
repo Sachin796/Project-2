@@ -16,6 +16,7 @@ module.exports = function(app) {
 
   //LOCATIONS ENDPOINT
   app.get("/locations", (req, resp) => {
+    console.log(req.session);
     db.Location.findAll({
       where: {
         UserId: req.body.id
@@ -28,28 +29,33 @@ module.exports = function(app) {
 
   //PROFILE ENDPOINT
   app.get("/profile", loggedIn, (req, resp, next) => {
-    // resp.render("profilePage", { layout: "profile" });
-    resp.send(req.session);
+    console.log(req.session);
+    resp.render("profilePage", { layout: "profile" });
+    // resp.send(req.session);
   });
 
   //REGISTER
   app.get("/register", (req, resp, next) => {
+    console.log(req.session);
     resp.render("registerPage", { layout: "register" });
   });
 
   //LOGIN
   app.get("/login", (req, resp, next) => {
+    console.log(req.session);
     resp.render("loginPage", { layout: "login" });
   });
 
   //LOGOUT
   app.get("/logout", (req, resp) => {
+    console.log(req.session);
     req.logout();
     resp.redirect("/");
   });
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, resp, next) {
+    console.log(req.session);
     resp.render("404");
   });
 };

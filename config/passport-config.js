@@ -25,7 +25,8 @@ module.exports = function(passport) {
             //VALID PASS
             done(null, {
               username: res.username,
-              password: res.password
+              password: res.password,
+              id: res.id
             });
           } else {
             //NOT VALUD
