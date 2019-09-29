@@ -38,7 +38,7 @@ module.exports = function(passport) {
     "/login",
     passport.authenticate("local", {
       failureRedirect: "/login",
-      successRedirect: "/profile"
+      successRedirect: "/"
     }),
     function(req, resp) {
       resp.send("HEY");

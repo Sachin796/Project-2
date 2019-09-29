@@ -29,8 +29,9 @@ module.exports = function(app) {
 
   //PROFILE ENDPOINT
   app.get("/profile", loggedIn, (req, resp, next) => {
-    console.log(req.session);
-    resp.render("profilePage", { layout: "profile" });
+    console.log(req.session.passport.user.username);
+    let username = req.session.passport.user.username;
+    resp.render("profilePage", { layout: "profile", username });
     // resp.send(req.session);
   });
 
