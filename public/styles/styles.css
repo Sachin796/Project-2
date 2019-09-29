@@ -34,3 +34,13 @@ nav {
 .page-footer {
   background-color: #313131;
 }
+
+#logo {
+  height: 2em;
+}
+
+#heroText {
+  color: white;
+  position: absolute;
+  margin-left: 1em;
+}

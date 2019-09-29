@@ -309,7 +309,7 @@ INSERT INTO budgets (budget, date_from, date_to,createdAt,updatedAt,UserId) VALU
     ('5068 Spohn Pass',100,'2019-09-27 00:00:00','2019-09-27 00:00:00'),
 
 
-INSERT INTO users (username,user_password,createdAt,updatedAt)VALUES
+INSERT INTO users (username,password,createdAt,updatedAt)VALUES
     ('gcollcutt0','VPziZxINMGO','2019-09-27 00:00:00','2019-09-27 00:00:00'),
     ('kdrees1','9xvycgME','2019-09-27 00:00:00','2019-09-27 00:00:00'),
     ('fpenton2','dsYSUWM','2019-09-27 00:00:00','2019-09-27 00:00:00'),

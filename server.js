@@ -1,6 +1,11 @@
 require("dotenv").config();
 var express = require("express");
 var exphbs = require("express-handlebars");
+var session = require("express-session");
+//PASSPORT
+const papportStrat = require("./config/passport-config");
+const passport = require("passport");
+require("./config/passport-config")(passport);
 
 var db = require("./models");
 
@@ -11,12 +16,23 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
+app.use(
+  session({
+    secret: "SECRETKEY",
+    saveUninitialized: false,
+    resave: false
+  })
+);
+//passport middlewares
+app.use(passport.initialize());
+app.use(passport.session());
+//Cookie parser middleware
 
 // Handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-const authRoute = require("./routes/auth");
+const authRoute = require("./routes/auth")(passport);
 
 // Routes
 require("./routes/apiRoutes")(app);
@@ -36,6 +52,7 @@ if (process.env.NODE_ENV === "test") {
 // Starting the server, syncing our models ------------------------------------/
 db.sequelizeConnection.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
+    // eslint-disable-next-line prettier/prettier
     console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
   });
 });

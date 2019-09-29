@@ -2,12 +2,22 @@
 <html>
 
 <head>
+
 	<meta charset="utf-8">
 	{{!-- ICONS --}}
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	{{!-- Jquery --}}
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	{{!-- Leaflet --}}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+		crossorigin="" />
+	<!-- Make sure you put this AFTER Leaflet's CSS -->
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+		integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+		crossorigin=""></script>
 	<!-- Compiled and minified MATERIALIZE CSS -->
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -17,8 +27,9 @@
 	<!--local CSS--->
 	<link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title"
 		charset="utf-8">
-
-	<title>Financr</title>
+	<!--local JS--->
+	<script src="/js/login.js"></script>
+	<title>LOGIN</title>
 </head>
 
 <body>
@@ -49,7 +60,6 @@
 		{{{body}}}
 	</main>
 </body>
-
 <footer class="page-footer">
 	<div class="container">
 		<div class="row">
