@@ -1,57 +1,48 @@
 const express = require("express");
 const Router = express.Router();
 const db = require("../models");
-let bcrypt = require("bcrypt");
-
+const bcrypt = require("bcrypt");
 const passport = require("passport");
-const initPassport = require("./passport-config.js");
-initPassport(passport, username => {
-  //send in the DB check for user.
-});
 
-Router.post("/register", async (req, resp) => {
-  const user = {
-    username: req.body.username,
-    user_password: req.body.user_password
-  };
-  console.log(req.body.username);
-
-  try {
-    //hash the password
-    const hashPass = await bcrypt.hash(req.body.user_password, 10);
-    //CHECK IF USER EXISTS.
-    db.User.findAll({ where: { username: req.body.username } }).then(async res => {
-      if (res.length > 0) {
-        resp.render("registerPage", req.body);
+module.exports = function(passport) {
+  // ROUTE: /api/auth/register
+  Router.post("/register", async (req, resp) => {
+    let body = req.body,
+      username = body.username,
+      password = body.password;
+    db.User.findOne({
+      where: {
+        username: username
+      }
+    }).then((err, res) => {
+      if (err) {
+        resp.status(500).send("USER EXISTS");
       } else {
-        await db.User.create({
-          username: req.body.username,
-          user_password: hashPass
-        })
-          .then(res => {
-            //SUCCESS
-            console.log("SUCCESS");
-            resp.render("profilePage", req.body);
-          })
-          .catch(err => {
-            res.status(400).send(err);
-          });
+        console.log("HELLO");
+        let newUser = new db.User();
+        newUser.username = username;
+        newUser.password = newUser.hashPassword(password);
+        newUser.save().then(user => {
+          if (!user) {
+            resp.send("ERROR");
+          } else {
+            resp.send(user);
+          }
+        });
       }
     });
-  } catch (err) {
-    // console.log(err);
-    // resp.render("registerPage");
-  }
+  });
 
-  //   resp.json(req.body);
-  //   resp.render("profilePage", { layout: "profile", data });
-});
-
-Router.post("/login", async (req, resp) => {
-  let data = {
-    username: req.body.username,
-    user_password: req.body.user_password
-  };
-});
-
-module.exports = Router;
+  //ROUTE: /api/auth/login
+  Router.post(
+    "/login",
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+      successRedirect: "/profile"
+    }),
+    function(req, resp) {
+      resp.send("HEY");
+    }
+  );
+  return Router;
+};
