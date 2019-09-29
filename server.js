@@ -28,7 +28,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 //Cookie parser middleware
-app.use(cookieParser());
+app.use(cookieParse());
 
 // Handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
