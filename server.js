@@ -1,4 +1,5 @@
 require("dotenv").config();
+var cookieParse = require("cookie-parser");
 var express = require("express");
 var exphbs = require("express-handlebars");
 var session = require("express-session");
@@ -26,6 +27,8 @@ app.use(
 //passport middlewares
 app.use(passport.initialize());
 app.use(passport.session());
+//Cookie parser middleware
+app.use(cookieParser());
 
 // Handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));

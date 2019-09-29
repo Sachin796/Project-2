@@ -11,9 +11,6 @@ let loggedIn = function(req, resp, next) {
 module.exports = function(app) {
   // Load index page
   app.get("/", function(req, resp) {
-    // db.Example.findAll({}).then(function(dbExamples) {
-    //   resp.render("index", {});
-    //render our home page
     resp.render("index");
   });
 
