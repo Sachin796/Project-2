@@ -26,7 +26,8 @@ module.exports = function(passport) {
           if (!user) {
             resp.send("ERROR");
           } else {
-            resp.send(user);
+            // resp.send(user);
+            resp.render("loginPage", { layout: "login" });
           }
         });
       }
