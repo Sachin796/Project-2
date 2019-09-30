@@ -7,7 +7,6 @@ var Handlebars = require("handlebars");
 //Handlebars Partials
 
 //PASSPORT
-const papportStrat = require("./config/passport-config");
 const passport = require("passport");
 require("./config/passport-config")(passport);
 
@@ -30,7 +29,6 @@ app.use(
 //passport middlewares
 app.use(passport.initialize());
 app.use(passport.session());
-//Cookie parser middleware
 
 // Handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
