@@ -3,18 +3,22 @@ var db = require("../models");
 module.exports = function(app) {
   //Get all expense data where id = user id
   app.get("/api/expense/:id", (req, resp) => {
-    db.expense
-      .findAll({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(res => {
-        resp.json(res);
-      })
-      .catch(err => {
-        throw err;
+    let expenseArr = [];
+    let categoryArr = [];
+    let userId = req.params.id;
+    console.log("ID is " + userId);
+    db.Expense.findAll({
+      group: ["category"],
+      where: {
+        UserId: 1
+      }
+    }).then(data => {
+      data.forEach(element => {
+        expenseArr.push(element.dataValues["amount_spent"]);
+        categoryArr.push(element.dataValues["category"]);
       });
+      resp.send({ expenseArr, categoryArr, userId });
+    });
   });
 
   // Create a new example
