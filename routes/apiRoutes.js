@@ -33,6 +33,8 @@ module.exports = function(app) {
       });
   });
 
+  app.get("/api/location/:location");
+
   // Delete an example by id
   // app.delete("/api/examples/:id", function(req, resp) {
   //   db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
