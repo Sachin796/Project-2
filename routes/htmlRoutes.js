@@ -15,7 +15,7 @@ module.exports = function(app) {
   });
 
   //LOCATIONS ENDPOINT
-  app.get("/locations", (req, resp) => {
+  app.get("/locations", loggedIn, (req, resp) => {
     console.log(req.session);
     db.Location.findAll({
       where: {

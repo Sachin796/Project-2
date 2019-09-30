@@ -2,6 +2,10 @@ require("dotenv").config();
 var express = require("express");
 var exphbs = require("express-handlebars");
 var session = require("express-session");
+var Handlebars = require("handlebars");
+
+//Handlebars Partials
+
 //PASSPORT
 const papportStrat = require("./config/passport-config");
 const passport = require("passport");
