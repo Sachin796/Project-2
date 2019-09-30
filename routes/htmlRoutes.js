@@ -16,15 +16,18 @@ module.exports = function(app) {
 
   //LOCATIONS ENDPOINT
   app.get("/locations", loggedIn, (req, resp) => {
-    console.log(req.session);
+    let id = req.session.passport.user.id;
     db.Location.findAll({
       where: {
-        UserId: req.body.id
+        UserId: id
       }
     })
-      .then(res => {})
-      .catch(err => {});
-    resp.render("locationPage", { layout: "location" });
+      .then(res => {
+        resp.render("locationPage", { layout: "location" });
+      })
+      .catch(err => {
+        resp.send(err);
+      });
   });
 
   //PROFILE ENDPOINT
