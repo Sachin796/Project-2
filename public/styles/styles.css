@@ -44,3 +44,7 @@ nav {
   position: absolute;
   margin-left: 1em;
 }
+
+.parallax-container .parallax img {
+  opacity: 1;
+}
