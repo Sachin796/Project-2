@@ -16,18 +16,7 @@ module.exports = function(app) {
 
   //LOCATIONS ENDPOINT
   app.get("/locations", loggedIn, (req, resp) => {
-    let id = req.session.passport.user.id;
-    db.Location.findAll({
-      where: {
-        UserId: id
-      }
-    })
-      .then(res => {
-        resp.render("locationPage", { layout: "location" });
-      })
-      .catch(err => {
-        resp.send(err);
-      });
+    resp.render("locationPage", { layout: "location" });
   });
 
   //PROFILE ENDPOINT

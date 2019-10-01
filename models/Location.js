@@ -7,12 +7,12 @@ module.exports = function(sequelize, DataTypes) {
     //     len: [1]
     //   }
     // },
-    long: {
-      type: DataTypes.DECIMAL(10, 10),
+    longitude: {
+      type: DataTypes.DECIMAL(10, 8),
       allowNull: false
     },
-    lat: {
-      type: DataTypes.DECIMAL(10, 10),
+    latitude: {
+      type: DataTypes.DECIMAL(10, 8),
       allowNull: false
     }
   });
