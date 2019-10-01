@@ -1,7 +1,10 @@
 var db = require("../models");
+const googleMapsClient = require("@google/maps").createClient({
+  key: process.env.G_API
+});
 
 module.exports = function(app) {
-  //Get all expense data where id = user id
+  //GET ALL EXPENSE DATA
   app.get("/api/expense/:id", (req, resp) => {
     let expenseArr = [];
     let categoryArr = [];
@@ -21,7 +24,12 @@ module.exports = function(app) {
     });
   });
 
-  // Create a new example
+  //ADD AN EXPENSE
+  app.get("/api/add/expense", (req, resp) => {
+    let id = req.session.passport.user.id;
+  });
+
+  // GET EXPENSES
   app.post("/api/expense", function(req, resp) {
     // db.Example.create(req.body).then(function(dbExample) {
     //   resp.json(dbExample);
@@ -38,13 +46,19 @@ module.exports = function(app) {
   });
 
   app.get("/api/get/locations/", (req, resp) => {
-    console.log(req);
+    let id = req.session.passport.user.id;
+    db.Expense.findAll({
+      include: [{ model: Locations, as: "l", required: true }],
+      attributes: [
+        ["e.amount_spent", "e.amount_spent"],
+        ["e.UserId", "e.UserId"],
+        ["e.category", "e.category"],
+        ["e.item_name", "e.item_name"],
+        ["l.address", "l.address"]
+      ],
+      where: { [Op.and]: [{ "$e.UserId$": { [Op.eq]: id } }] }
+    }).then(res => {
+      resp.json(res);
+    });
   });
-
-  // Delete an example by id
-  // app.delete("/api/examples/:id", function(req, resp) {
-  //   db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
-  //     res.json(dbExample);
-  //   });
-  // });
 };
