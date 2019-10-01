@@ -1,4 +1,6 @@
 var db = require("../models");
+var sequelize = require("sequelize");
+let Op = sequelize.Op;
 const googleMapsClient = require("@google/maps").createClient({
   key: process.env.G_API
 });
@@ -45,18 +47,15 @@ module.exports = function(app) {
       });
   });
 
-  app.get("/api/get/locations/", (req, resp) => {
+  //GET LOCATIONS FROM USER IN DB API
+  //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
+  app.get("/api/get/locations", (req, resp) => {
     let id = req.session.passport.user.id;
     db.Expense.findAll({
-      include: [{ model: Locations, as: "l", required: true }],
-      attributes: [
-        ["e.amount_spent", "e.amount_spent"],
-        ["e.UserId", "e.UserId"],
-        ["e.category", "e.category"],
-        ["e.item_name", "e.item_name"],
-        ["l.address", "l.address"]
-      ],
-      where: { [Op.and]: [{ "$e.UserId$": { [Op.eq]: id } }] }
+      include: [{ model: db.Location, required: true }],
+      where: {
+        UserId: id
+      }
     }).then(res => {
       resp.json(res);
     });
