@@ -6,20 +6,8 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
 
-  const getExpense = () => {
-    let user = localStorage.getItem("user");
-    fetch(`/api/expense/${user}`)
-      .then(res => {
-        //RESPONSE FROM SERVER
-        console.log(res);
-      })
-      .catch(err => {
-        throw err;
-      });
-  };
-
+  //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 13);
-
   L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution:
       'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -36,6 +24,6 @@ $(document).ready(function() {
   //   }
   // });
 
-  //   var marker = L.marker([43.65207, -79.347015]).addTo(myMap);
+  //   var marker = L.marker([res.long, res.lat]).addTo(myMap);
   //   marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
 });
