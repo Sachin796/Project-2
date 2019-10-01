@@ -37,7 +37,9 @@ module.exports = function(app) {
       });
   });
 
-  app.get("/api/location/:location");
+  app.get("/api/get/locations/", (req, resp) => {
+    console.log(req);
+  });
 
   // Delete an example by id
   // app.delete("/api/examples/:id", function(req, resp) {
