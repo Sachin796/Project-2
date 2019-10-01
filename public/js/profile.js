@@ -30,7 +30,6 @@ function createPieChart(result) {
       ],
       datasets: [
         {
-          label: "Population",
           data: [
             result.expenseArr[0],
             result.expenseArr[1],
@@ -74,9 +73,9 @@ function createPieChart(result) {
   });
 }
 
-function createLineChart(result) {
+function createLineChart(result1) {
   let varchart1 = document.getElementById("mychart1").getContext("2d");
-
+  console.log(result1);
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
@@ -85,19 +84,18 @@ function createLineChart(result) {
     type: "bar", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: [
-        result.categoryArr[0],
-        result.categoryArr[1],
-        result.categoryArr[2],
-        result.categoryArr[3]
+        result1.categoryArr[0],
+        result1.categoryArr[1],
+        result1.categoryArr[2],
+        result1.categoryArr[3]
       ],
       datasets: [
         {
-          label: "Population",
           data: [
-            result.expenseArr[0],
-            result.expenseArr[1],
-            result.expenseArr[2],
-            result.expenseArr[3]
+            result1.expenseArr[0],
+            result1.expenseArr[1],
+            result1.expenseArr[2],
+            result1.expenseArr[3]
           ],
           backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,
@@ -127,7 +125,7 @@ function createLineChart(result) {
   });
 }
 
-function createdoghnutChart(result) {
+function createdoghnutChart(result2) {
   let varchart = document.getElementById("mychart2").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Lato";
@@ -138,19 +136,19 @@ function createdoghnutChart(result) {
     type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: [
-        result.categoryArr[0],
-        result.categoryArr[1],
-        result.categoryArr[2],
-        result.categoryArr[3]
+        result2.categoryArr[0],
+        result2.categoryArr[1],
+        result2.categoryArr[2],
+        result2.categoryArr[3]
       ],
       datasets: [
         {
           label: "Population",
           data: [
-            result.expenseArr[0],
-            result.expenseArr[1],
-            result.expenseArr[2],
-            result.expenseArr[3]
+            result2.expenseArr[0],
+            result2.expenseArr[1],
+            result2.expenseArr[2],
+            result2.expenseArr[3]
           ],
           backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,

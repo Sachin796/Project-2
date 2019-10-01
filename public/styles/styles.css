@@ -45,41 +45,33 @@ nav {
   margin-left: 1em;
 }
 
-canvas#mychart {
-  height: 168px;
-  width: 337px;
-}
-
 #linechart {
-  height: 250px;
-  width: 60%;
-  border: 2px solid black;
-  margin: 0%;
-  padding: 0%;
-  margin-left: 20px;
+  box-shadow: 0px 2px 2px grey;
+  width: 30%;
+  margin-left: 30px;
 }
 
 #chartdiv {
   display: flex;
-  float: left;
+  margin-top: 20px;
+}
+
+#textdata {
+  text-align: center;
 }
 
 #piechart {
-  height: 250px;
-  width: 400px;
-  border: 2px solid black;
+  box-shadow: 0px 2px 2px grey;
+  margin-left: 50px;
+  width: 30%;
 }
 
 #mychart2 {
-  margin: 0%;
-  padding: 0%;
-  width: 100%;
-  border: 2px solid orange;
-  height: 320px;
+  margin: auto;
 }
 
 #doghnutchart {
-  height: 250px;
-  width: 400px;
-  border: 2px solid black;
+  box-shadow: 0px 2px 2px grey;
+  margin-left: 30px;
+  width: 30%;
 }
