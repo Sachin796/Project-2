@@ -44,6 +44,11 @@ module.exports = function(app) {
     resp.render("registerPage", { layout: "register" });
   });
 
+  //Expenses
+  app.get("/expense", (req, resp, next) => {
+    resp.render("expensePage", { layout: "expense" });
+  });
+
   //LOGIN
   app.get("/login", (req, resp, next) => {
     console.log(req.session);
