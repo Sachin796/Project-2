@@ -8,11 +8,11 @@ module.exports = function(sequelize, DataTypes) {
     //   }
     // },
     long: {
-      type: DataTypes.DECIMAL(10, 10),
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     lat: {
-      type: DataTypes.DECIMAL(10, 10),
+      type: DataTypes.FLOAT,
       allowNull: false
     }
   });

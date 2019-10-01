@@ -1,6 +1,7 @@
 var db = require("../models");
 const googleMapsClient = require("@google/maps").createClient({
-  key: process.env.G_API
+  key: "AIzaSyDCLs8xhTilm4mNw3zEXVT-2gsHdMdd_Vg",
+  Promise: Promise
 });
 
 module.exports = function(app) {
@@ -25,8 +26,46 @@ module.exports = function(app) {
   });
 
   //ADD AN EXPENSE
-  app.get("/api/add/expense", (req, resp) => {
+  app.post("/api/add/expense", (req, resp) => {
     let id = req.session.passport.user.id;
+    
+    // console.log(req.body.Address + ","+ " " + req.body.Country)
+    const Address = (req.body.Address + ","+ " " + req.body.Country)
+    const price = req.body.Amount
+    const category = req.body.Category 
+    const item = req.body.itemName 
+  
+
+    googleMapsClient.geocode({address: Address})
+  .asPromise()
+  .then((response) => {
+    
+    const lat = response.json.results[0].geometry.location.lat;
+    const long = response.json.results[0].geometry.location.lng;
+    db.Location.create({
+      long: long,
+      lat: lat,
+      UserId: id
+    }).then(function(insert){
+      let locId = insert.id
+      db.Expense.create({
+        amount_spent: price,
+        category: category,
+        item_name: item,
+        UserId : id,
+        LocationId: locId
+
+      }).then(function(insert){
+        console.log("ALL DONE INSERTS")
+        
+      })
+      
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
   });
 
   // GET EXPENSES
