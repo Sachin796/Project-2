@@ -2,40 +2,45 @@ var db = require("../models");
 
 module.exports = function(app) {
   //Get all expense data where id = user id
-  app.get("/api/expense/:id", (req, resp) => {
+  app.get("/api/expense", (req, resp) => {
+    let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
-    let userId = req.params.id;
-    console.log("ID is " + userId);
+    console.log("ID is " + id);
     db.Expense.findAll({
       group: ["category"],
       where: {
-        UserId: 1
+        UserId: id
       }
     }).then(data => {
       data.forEach(element => {
         expenseArr.push(element.dataValues["amount_spent"]);
         categoryArr.push(element.dataValues["category"]);
       });
-      resp.send({ expenseArr, categoryArr, userId });
+      let alldata = {
+        expenseArr: expenseArr,
+        categoryArr: categoryArr,
+        id: id
+      };
+      resp.json(alldata);
     });
   });
 
   // Create a new example
-  app.post("/api/expense", function(req, resp) {
-    // db.Example.create(req.body).then(function(dbExample) {
-    //   resp.json(dbExample);
-    // });
-    let { id } = req.body;
-    db.expsense
-      .create(req.body)
-      .then(res => {
-        resp.json(res);
-      })
-      .catch(err => {
-        throw err;
-      });
-  });
+  // app.post("/api/expense", function(req, resp) {
+  //   // db.Example.create(req.body).then(function(dbExample) {
+  //   //   resp.json(dbExample);
+  //   // });
+  //   let { id } = req.body;
+  //   db.expsense
+  //     .create(req.body)
+  //     .then(res => {
+  //       resp.json(res);
+  //     })
+  //     .catch(err => {
+  //       throw err;
+  //     });
+  // });
 
   app.get("/api/location/:location");
 

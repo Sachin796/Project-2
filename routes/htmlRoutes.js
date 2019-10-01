@@ -31,7 +31,9 @@ module.exports = function(app) {
   app.get("/profile", loggedIn, (req, resp, next) => {
     console.log(req.session.passport.user.username);
     let username = req.session.passport.user.username;
-    resp.render("profilePage", { layout: "profile", username });
+    let id = req.session.passport.user.id;
+
+    resp.render("profilePage", { layout: "profile", username, id });
     // resp.send(req.session);
   });
 
