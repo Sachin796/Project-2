@@ -34,22 +34,6 @@ module.exports = function(app) {
     });
   });
 
-  // Create a new example
-  // app.post("/api/expense", function(req, resp) {
-  //   // db.Example.create(req.body).then(function(dbExample) {
-  //   //   resp.json(dbExample);
-  //   // });
-  //   let { id } = req.body;
-  //   db.expsense
-  //     .create(req.body)
-  //     .then(res => {
-  //       resp.json(res);
-  //     })
-  //     .catch(err => {
-  //       throw err;
-  //     });
-  // });
-
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
   app.get("/api/get/locations", (req, resp) => {
