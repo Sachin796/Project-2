@@ -57,9 +57,6 @@ module.exports = function(app) {
         UserId: id
       }
     }).then(res => {
-      let data = {
-        amount: res.amount_spent
-      };
       resp.json(res);
     });
   });
