@@ -1,8 +1,9 @@
+require("dotenv").config();
 var db = require("../models");
 var sequelize = require("sequelize");
 let Op = sequelize.Op;
 const googleMapsClient = require("@google/maps").createClient({
-  key: process.env.G_API,
+  key: "AIzaSyDCLs8xhTilm4mNw3zEXVT-2gsHdMdd_Vg",
   Promise: Promise
 });
 
@@ -64,12 +65,13 @@ module.exports = function(app) {
   });
 
   app.post("/api/add/expense", (req, resp) => {
+    console.log(req.body);
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = req.body.Address + "," + " " + req.body.Country;
-    const price = req.body.Amount;
-    const category = req.body.Category;
-    const item = req.body.itemName;
+    const Address = req.body.address + "," + " " + req.body.country;
+    const price = req.body.amount;
+    const category = req.body.category;
+    const item = req.body.item;
     googleMapsClient
       .geocode({ address: Address })
       .asPromise()
@@ -77,8 +79,8 @@ module.exports = function(app) {
         const lat = response.json.results[0].geometry.location.lat;
         const long = response.json.results[0].geometry.location.lng;
         db.Location.create({
-          long: long,
-          lat: lat,
+          longitude: long,
+          latitude: lat,
           UserId: id
         }).then(function(insert) {
           let locId = insert.id;

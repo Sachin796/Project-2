@@ -1,32 +1,34 @@
 <h1>Expense PAGE</h1>
 
 <div class="row">
-  <form action="/api/auth/expense" method="POST" class="col s12">
+  <form action="/api/add/expense" method="POST" class="col s12">
     <div class="row">
       <div class="input-field col s6">
-        <i class="material-icons prefix">account_circle</i>
-        <input id="icon_prefix" type="text" class="validate">
-        <label for="icon_prefix">Address</label>
+        <i class="material-icons prefix">location_city</i>
+        <input name="address" id="address" type="text" class="validate">
+        <label for="address">Address</label>
       </div>
       <div class="input-field col s6">
-        <i class="material-icons prefix">account_circle</i>
-        <input id="icon_prefix" type="text" class="validate">
-        <label for="icon_prefix">Country</label>
+        <i class="material-icons prefix">emoji_flags</i>
+        <input name="country" id="country" type="text" class="validate">
+        <label for="country">Country</label>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">attach_money</i>
+          <input name="amount" id="amount" type="tel" class="validate">
+          <label for="amount">Amount</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">category</i>
+          <input name="category" id="category" type="tel" class="validate">
+          <label for="category">Category</label>
+        </div>
       </div>
       <div class="input-field col s6">
-        <i class="material-icons prefix">phone</i>
-        <input id="icon_telephone" type="tel" class="validate">
-        <label for="icon_telephone">Amount</label>
-      </div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">phone</i>
-        <input id="icon_telephone" type="tel" class="validate">
-        <label for="icon_telephone">Category</label>
-      </div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">phone</i>
-        <input id="icon_telephone" type="tel" class="validate">
-        <label for="icon_telephone">Item Name</label>
+        <i class="material-icons prefix">add_shopping_cart</i>
+        <input name="item" id="item" type="tel" class="validate">
+        <label for="item">Item Name</label>
       </div>
     </div>
     <button type="submit" id="submit" class="waves-effect waves-light btn-small"><i
