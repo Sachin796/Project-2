@@ -34,76 +34,16 @@ module.exports = function(app) {
     });
   });
 
-
   //ADD AN EXPENSE
   app.post("/api/add/expense", (req, resp) => {
     let id = req.session.passport.user.id;
-    
+
     // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = (req.body.Address + ","+ " " + req.body.Country)
-    const price = req.body.Amount
-    const category = req.body.Category 
-    const item = req.body.itemName 
-  
+    const Address = req.body.Address + "," + " " + req.body.Country;
+    const price = req.body.Amount;
+    const category = req.body.Category;
+    const item = req.body.itemName;
 
-    googleMapsClient.geocode({address: Address})
-  .asPromise()
-  .then((response) => {
-    
-    const lat = response.json.results[0].geometry.location.lat;
-    const long = response.json.results[0].geometry.location.lng;
-    db.Location.create({
-      long: long,
-      lat: lat,
-      UserId: id
-    }).then(function(insert){
-      let locId = insert.id
-      db.Expense.create({
-        amount_spent: price,
-        category: category,
-        item_name: item,
-        UserId : id,
-        LocationId: locId
-
-      }).then(function(insert){
-        console.log("ALL DONE INSERTS")
-        //resp.sendStatus(200);
-        resp.redirect('/expense');
-        
-      })
-      
-    })
-  })
-  .catch((err) => {
-    console.log(err);
-    res.sendStatus(401)
-  });
-
-  });
-
-
-  //GET LOCATIONS FROM USER IN DB API
-  //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
-  app.get("/api/get/locations", (req, resp) => {
-    let id = req.session.passport.user.id;
-    db.Expense.findAll({
-      include: [{ model: db.Location, required: true }],
-      where: {
-        UserId: id
-      }
-    }).then(res => {
-      resp.json(res);
-    });
-  });
-
-  app.post("/api/add/expense", (req, resp) => {
-    console.log(req.body);
-    let id = req.session.passport.user.id;
-    // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = req.body.address + "," + " " + req.body.country;
-    const price = req.body.amount;
-    const category = req.body.category;
-    const item = req.body.item;
     googleMapsClient
       .geocode({ address: Address })
       .asPromise()
@@ -124,11 +64,28 @@ module.exports = function(app) {
             LocationId: locId
           }).then(function(insert) {
             console.log("ALL DONE INSERTS");
+            //resp.sendStatus(200);
+            resp.redirect("/expense");
           });
         });
       })
       .catch(err => {
         console.log(err);
+        res.sendStatus(401);
       });
+  });
+
+  //GET LOCATIONS FROM USER IN DB API
+  //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
+  app.get("/api/get/locations", (req, resp) => {
+    let id = req.session.passport.user.id;
+    db.Expense.findAll({
+      include: [{ model: db.Location, required: true }],
+      where: {
+        UserId: id
+      }
+    }).then(res => {
+      resp.json(res);
+    });
   });
 };

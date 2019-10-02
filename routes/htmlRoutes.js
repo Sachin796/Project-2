@@ -19,11 +19,6 @@ module.exports = function(app) {
     resp.render("locationPage", { layout: "location" });
   });
 
-  //EXPENSE ENDPOINT
-  app.get("/expense", loggedIn, (req, resp) => {
-    resp.render("expensePage");
-  });
-
   //PROFILE ENDPOINT
   app.get("/profile", loggedIn, (req, resp, next) => {
     console.log(req.session.passport.user.username);
@@ -41,7 +36,7 @@ module.exports = function(app) {
   });
 
   //Expenses
-  app.get("/expense", (req, resp, next) => {
+  app.get("/expense", loggedIn, (req, resp, next) => {
     let id = req.session.passport.user.id;
     let amount = [];
     db.Expense.findAll({
@@ -50,16 +45,16 @@ module.exports = function(app) {
       }
     })
       .then(res => {
-        console.log("THIS IS THE QUERY RESULT ----------------------------------------" + res[0].dataValues)
+        console.log("THIS IS THE QUERY RESULT ----------------------------------------" + res[0].dataValues);
         // loop through results and push to correct objects.
-        for(i=0; i < res.length; i++){
+        for (i = 0; i < res.length; i++) {
           let amtSpent = res[i].dataValues.amount_spent;
           let category = res[i].dataValues.category;
           let itemName = res[i].dataValues.item_name;
-          amount.push({"amount": amtSpent, "category" : category, "itemName": itemName})
+          amount.push({ amount: amtSpent, category: category, itemName: itemName });
         }
-        
-        resp.render("expensePage", { layout: "expense", item: amount});
+
+        resp.render("expensePage", { layout: "expense", amount });
       })
       .catch(err => {
         resp.send(err);
