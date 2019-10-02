@@ -16,25 +16,16 @@ module.exports = function(app) {
 
   //LOCATIONS ENDPOINT
   app.get("/locations", loggedIn, (req, resp) => {
-    let id = req.session.passport.user.id;
-    db.Location.findAll({
-      where: {
-        UserId: id
-      }
-    })
-      .then(res => {
-        resp.render("locationPage", { layout: "location" });
-      })
-      .catch(err => {
-        resp.send(err);
-      });
+    resp.render("locationPage", { layout: "location" });
   });
 
   //PROFILE ENDPOINT
   app.get("/profile", loggedIn, (req, resp, next) => {
     console.log(req.session.passport.user.username);
     let username = req.session.passport.user.username;
-    resp.render("profilePage", { layout: "profile", username });
+    let id = req.session.passport.user.id;
+
+    resp.render("profilePage", { layout: "profile", username, id });
     // resp.send(req.session);
   });
 

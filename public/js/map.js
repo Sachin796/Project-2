@@ -16,6 +16,26 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
+  fetch("/api/get/locations")
+    .then(res => res.json())
+    .then(result => {
+      result.forEach(purchase => {
+        let long = purchase.Location.longitude;
+        let lat = purchase.Location.latitude;
+        console.log(purchase);
+
+        console.log(lat, long);
+
+        var marker = L.marker([lat, long]).addTo(myMap);
+        marker.bindPopup(
+          `<b>${purchase.category}<div style="text-align: center;"></b><br><span>${purchase.item_name}</span><br><span>$${purchase.amount_spent}</span></div>`
+        );
+      });
+    })
+    .catch(err => {
+      throw err;
+    });
+
   // expenses.forEach(ele => {
   //   console.log(ele.type);
   //   if (ele.type === "Clothing") {
