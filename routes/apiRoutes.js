@@ -13,11 +13,12 @@ module.exports = function(app) {
     let categoryArr = [];
     console.log("ID is " + id);
     db.Expense.findAll({
-      group: ["category"],
+      attributes: ["category", "amount_spent"],
       where: {
         UserId: id
       }
     }).then(data => {
+      console.log(data);
       data.forEach(element => {
         expenseArr.push(element.dataValues["amount_spent"]);
         categoryArr.push(element.dataValues["category"]);
@@ -46,7 +47,6 @@ module.exports = function(app) {
   //       throw err;
   //     });
   // });
-
 
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
