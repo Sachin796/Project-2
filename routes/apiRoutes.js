@@ -57,6 +57,8 @@ module.exports = function(app) {
 
       }).then(function(insert){
         console.log("ALL DONE INSERTS")
+        //resp.sendStatus(200);
+        resp.redirect('/expense');
         
       })
       
@@ -64,6 +66,7 @@ module.exports = function(app) {
   })
   .catch((err) => {
     console.log(err);
+    res.sendStatus(401)
   });
 
   });
