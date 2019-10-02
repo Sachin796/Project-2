@@ -45,6 +45,37 @@ nav {
   margin-left: 1em;
 }
 
+#linechart {
+  box-shadow: 0px 2px 2px grey;
+  width: 30%;
+  margin-left: 30px;
+}
+
+#chartdiv {
+  display: flex;
+  margin-top: 20px;
+}
+
+#textdata {
+  text-align: center;
+}
+
+#piechart {
+  box-shadow: 0px 2px 2px grey;
+  margin-left: 50px;
+  width: 30%;
+}
+
+#mychart2 {
+  margin: auto;
+}
+
+#doghnutchart {
+  box-shadow: 0px 2px 2px grey;
+  margin-left: 30px;
+  width: 30%;
+}
+
 .parallax-container .parallax img {
   opacity: 1;
 }
