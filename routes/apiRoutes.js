@@ -1,3 +1,4 @@
+require("dotenv").config();
 var db = require("../models");
 var sequelize = require("sequelize");
 let Op = sequelize.Op;
@@ -14,11 +15,12 @@ module.exports = function(app) {
     let categoryArr = [];
     console.log("ID is " + id);
     db.Expense.findAll({
-      group: ["category"],
+      attributes: ["category", "amount_spent"],
       where: {
         UserId: id
       }
     }).then(data => {
+      console.log(data);
       data.forEach(element => {
         expenseArr.push(element.dataValues["amount_spent"]);
         categoryArr.push(element.dataValues["category"]);
@@ -31,6 +33,7 @@ module.exports = function(app) {
       resp.json(alldata);
     });
   });
+
 
   //ADD AN EXPENSE
   app.post("/api/add/expense", (req, resp) => {
@@ -91,5 +94,41 @@ module.exports = function(app) {
     }).then(res => {
       resp.json(res);
     });
+  });
+
+  app.post("/api/add/expense", (req, resp) => {
+    console.log(req.body);
+    let id = req.session.passport.user.id;
+    // console.log(req.body.Address + ","+ " " + req.body.Country)
+    const Address = req.body.address + "," + " " + req.body.country;
+    const price = req.body.amount;
+    const category = req.body.category;
+    const item = req.body.item;
+    googleMapsClient
+      .geocode({ address: Address })
+      .asPromise()
+      .then(response => {
+        const lat = response.json.results[0].geometry.location.lat;
+        const long = response.json.results[0].geometry.location.lng;
+        db.Location.create({
+          longitude: long,
+          latitude: lat,
+          UserId: id
+        }).then(function(insert) {
+          let locId = insert.id;
+          db.Expense.create({
+            amount_spent: price,
+            category: category,
+            item_name: item,
+            UserId: id,
+            LocationId: locId
+          }).then(function(insert) {
+            console.log("ALL DONE INSERTS");
+          });
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
 };

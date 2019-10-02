@@ -19,12 +19,10 @@ $(document).ready(function() {
   fetch("/api/get/locations")
     .then(res => res.json())
     .then(result => {
+      console.log(result);
       result.forEach(purchase => {
         let long = purchase.Location.longitude;
         let lat = purchase.Location.latitude;
-        console.log(purchase);
-
-        console.log(lat, long);
 
         var marker = L.marker([lat, long]).addTo(myMap);
         marker.bindPopup(

@@ -19,6 +19,11 @@ module.exports = function(app) {
     resp.render("locationPage", { layout: "location" });
   });
 
+  //EXPENSE ENDPOINT
+  app.get("/expense", loggedIn, (req, resp) => {
+    resp.render("expensePage");
+  });
+
   //PROFILE ENDPOINT
   app.get("/profile", loggedIn, (req, resp, next) => {
     console.log(req.session.passport.user.username);
