@@ -75,3 +75,7 @@ nav {
   margin-left: 30px;
   width: 30%;
 }
+
+.parallax-container .parallax img {
+  opacity: 1;
+}

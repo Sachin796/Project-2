@@ -15,15 +15,7 @@ module.exports = function(app) {
   });
 
   //LOCATIONS ENDPOINT
-  app.get("/locations", (req, resp) => {
-    console.log(req.session);
-    db.Location.findAll({
-      where: {
-        UserId: req.body.id
-      }
-    })
-      .then(res => {})
-      .catch(err => {});
+  app.get("/locations", loggedIn, (req, resp) => {
     resp.render("locationPage", { layout: "location" });
   });
 
@@ -41,6 +33,11 @@ module.exports = function(app) {
   app.get("/register", (req, resp, next) => {
     console.log(req.session);
     resp.render("registerPage", { layout: "register" });
+  });
+
+  //Expenses
+  app.get("/expense", (req, resp, next) => {
+    resp.render("expensePage", { layout: "expense" });
   });
 
   //LOGIN

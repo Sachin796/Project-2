@@ -8,65 +8,26 @@
   {{!-- Jquery --}}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <!-- Compiled and minified MATERIALIZE CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Compiled and minified MATERIALIZE JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!--local CSS--->
-  <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title"
+    charset="utf-8">
   <!--local JS--->
   <title>Financr</title>
 </head>
 
 <body>
-  {{!-- NAVBAR --}}
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><img id="logo" src="/img/financrLogo.png" alt="logo"></a>
-      <a href="#" data-target="toggleMenu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="/">Home</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/budget">New Budget</a></li>
-        <li><a href="/locations">Map</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <ul class="sidenav" id="toggleMenu">
-    <li><a href="/">Home</a></li>
-    <li><a href="/profile">Profile</a></li>
-    <li><a href="/budget">New Budget</a></li>
-    <li><a href="/locations">Map</a></li>
-  </ul>
-  {{!-- NAVBAR --}}
+  {{> navbar}}
   <main>
     {{{body}}}
   </main>
 </body>
 
-<footer class="page-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col l6 s12">
-        <h5 class="white-text">Financr</h5>
-      </div>
-      <div class="col l4 offset-l2 s12">
-        <h5 class="white-text">Check Us Out</h5>
-        <ul>
-          <li>
-            <a class="grey-text text-lighten-3" href="http://afwebdev.github.io">@Andrew</a>
-          </li>
-          <li><a class="grey-text text-lighten-3" href="#!">@Sachin</a></li>
-          <li><a class="grey-text text-lighten-3" href="#!">@Manjyot</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="footer-copyright">
-    <div class="container">
-      Created by Andrew, Sachin, and Manjyot
-    </div>
-  </div>
-</footer>
+{{> footer}}
+
 
 </html>

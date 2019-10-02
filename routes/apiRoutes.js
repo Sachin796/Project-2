@@ -1,4 +1,9 @@
 var db = require("../models");
+var sequelize = require("sequelize");
+let Op = sequelize.Op;
+const googleMapsClient = require("@google/maps").createClient({
+  key: process.env.G_API
+});
 
 module.exports = function(app) {
   //Get all expense data where id = user id
@@ -42,12 +47,18 @@ module.exports = function(app) {
   //     });
   // });
 
-  app.get("/api/location/:location");
 
-  // Delete an example by id
-  // app.delete("/api/examples/:id", function(req, resp) {
-  //   db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
-  //     res.json(dbExample);
-  //   });
-  // });
+  //GET LOCATIONS FROM USER IN DB API
+  //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
+  app.get("/api/get/locations", (req, resp) => {
+    let id = req.session.passport.user.id;
+    db.Expense.findAll({
+      include: [{ model: db.Location, required: true }],
+      where: {
+        UserId: id
+      }
+    }).then(res => {
+      resp.json(res);
+    });
+  });
 };
