@@ -1,41 +1,47 @@
-<h1>Expense PAGE</h1>
-
+<h1 style="text-align: center;">Expenses</h1>
 <div class="row">
-  <form action="/api/add/expense" method="POST" class="col s12">
-    <div class="row">
-      <div class="input-field col s6">
-        <i class="material-icons prefix">location_city</i>
-        <input name="address" id="address" type="text" class="validate">
-        <label for="address">Address</label>
-      </div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">emoji_flags</i>
-        <input name="country" id="country" type="text" class="validate">
-        <label for="country">Country</label>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">attach_money</i>
-          <input name="amount" id="amount" type="tel" class="validate">
-          <label for="amount">Amount</label>
-        </div>
-        <div class="input-field col s6">
-          <i class="material-icons prefix">category</i>
-          <input name="category" id="category" type="tel" class="validate">
-          <label for="category">Category</label>
-        </div>
-      </div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">add_shopping_cart</i>
-        <input name="item" id="item" type="tel" class="validate">
-        <label for="item">Item Name</label>
-      </div>
-    </div>
-    <button type="submit" id="submit" class="waves-effect waves-light btn-small"><i
-        class="material-icons right">send</i>Submit</button>
-  </form>
-</div>
 
-</div>
+  <div class="col s6">
+    <form action="/api/add/expense" method="POST" class="form-style-9">
+      <ul>
+        <li>
+          <input type="text" name="Address" class="field-style field-split align-left" placeholder="Address" />
+          <input type="text" name="Country" class="field-style field-split align-right" placeholder="Country" />
+
+        </li>
+        <li>
+          <input type="text" name="Amount" class="field-style field-split align-left" placeholder="Amount" />
+          <input type="text" name="Category" class="field-style field-split align-right" placeholder="Category" />
+        </li>
+        <li>
+          <input type="text" name="itemName" class="field-style field-full align-none" placeholder="Name" />
+        </li>
+        <li>
+          <input type="submit" value="Send Message" />
+        </li>
+      </ul>
+    </form>
+  </div>
+  <div class="col s6">
+    <table>
+        <thead>
+          <tr>
+              <th>Amount Spent</th>
+              <th>Item Name</th>
+              <th>Item Category</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            {{#each item}}
+          <tr>
+            <td>{{amount}}</td>
+            <td>{{category}}</td>
+            <td>{{itemName}}</td>
+          </tr>
+            {{/each}}
+        </tbody>
+      </table>
+  </div>
 </div>
 <script src="/js/expense.js"></script>
