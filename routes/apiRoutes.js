@@ -39,18 +39,20 @@ module.exports = function(app) {
     let id = req.session.passport.user.id;
 
     // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = req.body.Address + "," + " " + req.body.Country;
+    const address = req.body.Address + "," + " " + req.body.Country;
     const price = req.body.Amount;
     const category = req.body.Category;
     const item = req.body.itemName;
 
     googleMapsClient
-      .geocode({ address: Address })
+      .geocode({ address: address })
       .asPromise()
       .then(response => {
         const lat = response.json.results[0].geometry.location.lat;
         const long = response.json.results[0].geometry.location.lng;
+
         db.Location.create({
+          address: address,
           longitude: long,
           latitude: lat,
           UserId: id

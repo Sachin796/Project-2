@@ -1,12 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
   var Location = sequelize.define("Location", {
-    // address: {
-    //   type: DataTypes.TEXT,
-    //   allowNull: false,
-    //   validate: {
-    //     len: [1]
-    //   }
-    // },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        len: [1]
+      }
+    },
     longitude: {
       type: DataTypes.FLOAT,
       allowNull: false
