@@ -7,7 +7,7 @@ $(document).ready(function() {
   $(".sidenav").css({ zIndex: 9999 });
 
   //BUILD THE MAP
-  let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 13);
+  let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
   L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution:
       'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -21,8 +21,13 @@ $(document).ready(function() {
     .then(result => {
       console.log(result);
       result.forEach(purchase => {
+        let address = purchase.Location.address;
         let long = purchase.Location.longitude;
         let lat = purchase.Location.latitude;
+        let item_name = purchase.item_name;
+        let item_price = purchase.amount_spent;
+        let table = $("tbody");
+        table.append(`<tr><td>${address}</td><td>${item_name}</td><td>${item_price}</td></tr>`);
 
         var marker = L.marker([lat, long]).addTo(myMap);
         marker.bindPopup(
@@ -33,15 +38,4 @@ $(document).ready(function() {
     .catch(err => {
       throw err;
     });
-
-  // expenses.forEach(ele => {
-  //   console.log(ele.type);
-  //   if (ele.type === "Clothing") {
-  //     var marker = L.marker(ele.location).addTo(myMap);
-  //     marker.bindPopup(`<b>${ele.item}</b><br><span>$${ele.price}</span>`);
-  //   }
-  // });
-
-  //   var marker = L.marker([res.long, res.lat]).addTo(myMap);
-  //   marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
 });

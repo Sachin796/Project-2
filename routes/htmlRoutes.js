@@ -38,7 +38,7 @@ module.exports = function(app) {
   //Expenses
   app.get("/expense", loggedIn, (req, resp, next) => {
     let id = req.session.passport.user.id;
-    let amount = [];
+    let expense = [];
     db.Expense.findAll({
       where: {
         UserId: id
@@ -51,13 +51,14 @@ module.exports = function(app) {
           let amtSpent = res[i].dataValues.amount_spent;
           let category = res[i].dataValues.category;
           let itemName = res[i].dataValues.item_name;
-          amount.push({ amount: amtSpent, category: category, itemName: itemName });
+          expense.push({ amount: amtSpent, category: category, itemName: itemName });
         }
 
-        resp.render("expensePage", { layout: "expense", amount });
+        resp.render("expensePage", { layout: "expense", expense });
       })
       .catch(err => {
-        resp.send(err);
+        console.log("HELLO");
+        resp.render("expensePage", { layout: "expense" });
       });
   });
 
