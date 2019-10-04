@@ -209,6 +209,7 @@ module.exports = function(app) {
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
     const address = req.body.Address + "," + " " + req.body.Country;
+    console.log("THIS RIGHT HERE IS THE ADDRESS COMING OVER" + address)
     const price = req.body.Amount;
     const category = req.body.Category;
     const item = req.body.itemName;
@@ -242,7 +243,7 @@ module.exports = function(app) {
       })
       .catch(err => {
         console.log(err);
-        res.sendStatus(401);
+        resp.status(401).send({error: "Please enter a valid address."})
       });
   });
 
