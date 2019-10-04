@@ -5,6 +5,7 @@ $(document).ready(function() {
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
+  $(".dropdown-trigger").dropdown();
 
   //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
