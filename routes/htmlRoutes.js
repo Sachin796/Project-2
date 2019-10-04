@@ -12,12 +12,16 @@ let loggedIn = function(req, resp, next) {
 module.exports = function(app) {
   // Load index page
   app.get("/", function(req, resp) {
-    resp.render("index");
+    if (req.isAuthenticated()) {
+      resp.render("index", { loggedIn: true });
+    } else {
+      resp.render("index", { loggedIn: false });
+    }
   });
 
   //LOCATIONS ENDPOINT
   app.get("/locations", loggedIn, (req, resp) => {
-    resp.render("locationPage", { layout: "location" });
+    resp.render("locationPage", { layout: "location", loggedIn: true });
   });
 
   //PROFILE ENDPOINT
@@ -26,14 +30,18 @@ module.exports = function(app) {
     let username = req.session.passport.user.username;
     let id = req.session.passport.user.id;
 
-    resp.render("profilePage", { layout: "profile", username, id });
+    resp.render("profilePage", { layout: "profile", username, id, loggedIn: true });
     // resp.send(req.session);
   });
 
   //REGISTER
   app.get("/register", (req, resp, next) => {
     console.log(req.session);
-    resp.render("registerPage", { layout: "register" });
+    if (req.isAuthenticated()) {
+      resp.redirect("/");
+    } else {
+      resp.render("registerPage", { layout: "register", loggedIn: false });
+    }
   });
 
   //Expenses
@@ -55,30 +63,29 @@ module.exports = function(app) {
           expense.push({ amount: amtSpent, category: category, itemName: itemName });
         }
 
-        resp.render("expensePage", { layout: "expense", expense });
+        resp.render("expensePage", { layout: "expense", expense, loggedIn: true });
       })
       .catch(err => {
         console.log("HELLO");
-        resp.render("expensePage", { layout: "expense" });
+        resp.render("expensePage", { layout: "expense", loggedIn: true });
       });
   });
 
   //LOGIN
   app.get("/login", (req, resp, next) => {
     console.log(req.session);
-    resp.render("loginPage", { layout: "login" });
+    resp.render("loginPage", { layout: "login", loggedIn: false });
   });
-  
-  
+
   //Budget EndPoint
-  app.get("/budget", (req, resp, next) => {
+  app.get("/budget", loggedIn, (req, resp, next) => {
     let id = req.session.passport.user.id;
     let budget = [];
     let sumExpense = 0;
     let budgetLeft = 0;
     let fromDate;
     let toDate;
-    const Op = Sequelize.Op
+    const Op = Sequelize.Op;
     db.Budget.findAll({
       where: {
         UserId: id
@@ -92,7 +99,7 @@ module.exports = function(app) {
           toDate = res[i].dataValues.date_to;
           let budgetAmt = res[i].dataValues.budget;
           budgetLeft = res[i].dataValues.budget;
-          budget.push({ fromDate,toDate,budgetAmt });
+          budget.push({ fromDate, toDate, budgetAmt });
         }
         // GETS INFO FROM EXPENSE TABLE HERE BETWEEN ACTIVE BUDGET DATES
         db.Expense.findAll({
@@ -100,25 +107,20 @@ module.exports = function(app) {
             UserId: id,
             createdAt: {
               [Op.between]: [fromDate, toDate]
-
             }
           }
-        }).then(function(res){
+        }).then(function(res) {
           for (i = 0; i < res.length; i++) {
-             sumExpense = parseFloat(res[i].dataValues.amount_spent) + parseFloat(sumExpense);
-             budgetLeft = parseFloat(budgetLeft) - parseFloat(sumExpense);
-             
+            sumExpense = parseFloat(res[i].dataValues.amount_spent) + parseFloat(sumExpense);
+            budgetLeft = parseFloat(budgetLeft) - parseFloat(sumExpense);
           }
-          resp.render("budgetPage", { layout: "budget",budget,budgetLeft});
-        })
-
+          resp.render("budgetPage", { layout: "budget", budget, budgetLeft, loggedIn: true });
+        });
       })
       .catch(err => {
-        console.log(err)
-        console.log("HELLO");
-        resp.render("budgetPage", { layout: "budget" });
+        console.log(err);
+        resp.render("budgetPage", { layout: "budget", loggedIn: true });
       });
-    
   });
 
   //LOGOUT
@@ -131,6 +133,6 @@ module.exports = function(app) {
   // Render 404 page for any unmatched routes
   app.get("*", function(req, resp, next) {
     console.log(req.session);
-    resp.render("404");
+    resp.render("404", { loggedIn: true });
   });
 };

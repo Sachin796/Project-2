@@ -1,13 +1,12 @@
 $(document).ready(function() {
-    //INIT THE NAVBAR
-    $(".sidenav").sidenav();
-    $(".sidenav").css({ zIndex: 9999 });
-  });
-  
+  //INIT THE NAVBAR
+  $(".sidenav").sidenav();
+  $(".sidenav").css({ zIndex: 9999 });
+  $(".dropdown-trigger").dropdown();
 
   $(".expenseForm").submit(e => {
     e.preventDefault();
-    console.log("here1")
+    console.log("here1");
     let address = $("#address").val();
     let country = $("#country").val();
     let category = $("#category").val();
@@ -18,9 +17,9 @@ $(document).ready(function() {
       Country: country,
       Amount: amount,
       Category: category,
-      itemName : itemName
+      itemName: itemName
     };
-console.log("here2")
+    console.log("here2");
     //Request
     $.ajax({
       url: "/api/add/expense", //give your url here
@@ -28,7 +27,7 @@ console.log("here2")
       dataType: "json",
       data: expenseData,
       error: function(data) {
-        console.log("here3")
+        console.log("here3");
         if (data.status === 401) {
           let err = data.responseJSON.error;
           M.toast({ html: err });
@@ -38,4 +37,4 @@ console.log("here2")
       }
     });
   });
-
+});
