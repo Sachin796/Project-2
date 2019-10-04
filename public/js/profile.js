@@ -2,7 +2,9 @@ $(document).ready(function() {
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
+  $(".dropdown-trigger").dropdown();
 
+  //initial call for data.
   fetch("/api/expense")
     .then(res => res.json())
     .then(result => {
@@ -12,6 +14,7 @@ $(document).ready(function() {
       createdoghnutChart(result);
     });
 
+  //CREATE PIE CHART
   function createPieChart(result) {
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
@@ -66,11 +69,11 @@ $(document).ready(function() {
     });
   }
 
+  //CREATE BAR GRAPH
   function createLineChart(result) {
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
     });
-    console.log(result);
     let varChart = document.getElementById("mychart1").getContext("2d");
     console.log(result);
     Chart.defaults.global.defaultFontFamily = "Lato";
@@ -112,6 +115,7 @@ $(document).ready(function() {
     });
   }
 
+  //CREATE DONUT GRAPH
   function createdoghnutChart(result) {
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
@@ -167,6 +171,7 @@ $(document).ready(function() {
     });
   }
 
+  //oncChange handler for date dropdown
   $("#selectday").on("change", function() {
     let newdata = {
       newdata: this.value
