@@ -1,6 +1,9 @@
 .list-group-item {
   line-height: 2.5;
 }
+html {
+  height: 100%;
+}
 
 #weatherMap {
   text-align: center;
@@ -17,6 +20,7 @@
 }
 
 body {
+  margin: 0;
   background-color: #f3f1ef;
   display: flex;
   min-height: 100vh;
@@ -57,6 +61,15 @@ nav {
   margin-left: 1em;
 }
 
+.heroImg {
+  width: 100%;
+  max-width: 315px;
+}
+
+.section {
+  padding: 4em;
+}
+
 #linechart {
   box-shadow: 0px 2px 2px grey;
   width: 30%;
@@ -88,8 +101,8 @@ nav {
   width: 30%;
 }
 
-.parallax-container .parallax img {
-  opacity: 1;
+.parallax-container {
+  height: 400px;
 }
 
 .form-style-9 {
@@ -118,6 +131,7 @@ nav {
   padding: 8px;
   outline: none;
   border: 1px solid #b0cfe0;
+  transition: all 0.3s ease-in-out;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -161,4 +175,16 @@ nav {
 .form-style-9 ul li input[type="submit"]:hover {
   background: linear-gradient(to bottom, #2d77a2 5%, #337da8 100%);
   background-color: #28739e;
+}
+
+.login-bottom {
+  height: 10em;
+}
+
+.loginHeader {
+  margin: 2em;
+}
+
+.registerDiv p {
+  margin: 0;
 }

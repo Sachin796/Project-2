@@ -1,0 +1,45 @@
+<h1 style="text-align: center;">ACTIVE BUDGET</h1>
+<div class="row">
+
+  <div class="col s6">
+    <form action="/api/add/budget" method="POST" class="form-style-9">
+      <ul>
+        <li>
+          <input type="text" name="Amount" class="field-style field-split align-left"
+            placeholder="Amount" />
+        </li>
+        <li>
+          <input type="text" placeholder="From Date.." name="fromDate" class="datepicker">
+          <input type="text" name="toDate" placeholder="To Date" class="datepicker">
+        </li>
+        <li>
+          <input type="submit" value="Add Budget" />
+        </li>
+      </ul>
+    </form>
+  </div>
+  <div class="col s6">
+    <table>
+      <thead>
+        <tr>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Starting Budget</th>
+          <th>Budget Left</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each budget}}
+        <tr>
+          <td>{{fromDate}}</td>
+          <td>{{toDate}}</td>
+          <td>{{budgetAmt}}</td>
+          {{/each}}
+          <td>{{budgetLeft}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="/js/budget.js"></script>

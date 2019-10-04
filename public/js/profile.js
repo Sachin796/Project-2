@@ -14,30 +14,29 @@ fetch("api/expense")
   });
 
 function createPieChart(result) {
-  let varchart = document.getElementById("mychart").getContext("2d");
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
+  });
+  let varChart = document.getElementById("mychart").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart = new Chart(varchart, {
+  let popchart = new Chart(varChart, {
     type: "pie", //bar horizontalBar pie line doughnut radar polarArea
     data: {
-      labels: [
-        result.categoryArr[0],
-        result.categoryArr[1],
-        result.categoryArr[2],
-        result.categoryArr[3]
-      ],
+      labels: result.categoryArr,
       datasets: [
         {
-          data: [
-            result.expenseArr[0],
-            result.expenseArr[1],
-            result.expenseArr[2],
-            result.expenseArr[3]
+          data: expenseData,
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
           ],
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,
@@ -75,30 +74,30 @@ function createPieChart(result) {
 }
 
 function createLineChart(result) {
-  let varchart1 = document.getElementById("mychart1").getContext("2d");
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
+  });
+  console.log(result);
+  let varChart = document.getElementById("mychart1").getContext("2d");
   console.log(result);
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart1 = new Chart(varchart1, {
+  let popchart1 = new Chart(varChart, {
     type: "bar", //bar horizontalBar pie line doughnut radar polarArea
     data: {
-      labels: [
-        result.categoryArr[0],
-        result.categoryArr[1],
-        result.categoryArr[2],
-        result.categoryArr[3]
-      ],
+      labels: result.categoryArr,
       datasets: [
         {
-          data: [
-            result.expenseArr[0],
-            result.expenseArr[1],
-            result.expenseArr[2],
-            result.expenseArr[3]
+          data: expenseData,
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
           ],
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,
           borderColor: "#777",
           hoverBorderWidth: 3,
@@ -120,38 +119,37 @@ function createLineChart(result) {
         }
       },
       tooltips: {
-        enabled: false
+        enabled: true
       }
     }
   });
 }
 
-function createdoghnutChart(result2) {
-  let varchart = document.getElementById("mychart2").getContext("2d");
+function createdoghnutChart(result) {
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
+  });
+  let varChart = document.getElementById("mychart2").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart = new Chart(varchart, {
+  let popchart = new Chart(varChart, {
     type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
     data: {
-      labels: [
-        result2.categoryArr[0],
-        result2.categoryArr[1],
-        result2.categoryArr[2],
-        result2.categoryArr[3]
-      ],
+      labels: result.categoryArr,
       datasets: [
         {
           label: "Population",
-          data: [
-            result2.expenseArr[0],
-            result2.expenseArr[1],
-            result2.expenseArr[2],
-            result2.expenseArr[3]
+          data: expenseData,
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
           ],
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,
