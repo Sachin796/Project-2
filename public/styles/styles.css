@@ -1,6 +1,9 @@
 .list-group-item {
   line-height: 2.5;
 }
+html {
+  height: 100%;
+}
 
 #weatherMap {
   text-align: center;
@@ -45,6 +48,15 @@ nav {
   margin-left: 1em;
 }
 
+.heroImg {
+  width: 100%;
+  max-width: 315px;
+}
+
+.section {
+  padding: 4em;
+}
+
 #linechart {
   box-shadow: 0px 2px 2px grey;
   width: 30%;
@@ -76,8 +88,8 @@ nav {
   width: 30%;
 }
 
-.parallax-container .parallax img {
-  opacity: 1;
+.parallax-container {
+  height: 400px;
 }
 
 .form-style-9 {
