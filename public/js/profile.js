@@ -3,6 +3,7 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
 });
+
 fetch("api/expense")
   .then(res => res.json())
   .then(result => {
@@ -73,9 +74,9 @@ function createPieChart(result) {
   });
 }
 
-function createLineChart(result1) {
+function createLineChart(result) {
   let varchart1 = document.getElementById("mychart1").getContext("2d");
-  console.log(result1);
+  console.log(result);
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
@@ -84,18 +85,18 @@ function createLineChart(result1) {
     type: "bar", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: [
-        result1.categoryArr[0],
-        result1.categoryArr[1],
-        result1.categoryArr[2],
-        result1.categoryArr[3]
+        result.categoryArr[0],
+        result.categoryArr[1],
+        result.categoryArr[2],
+        result.categoryArr[3]
       ],
       datasets: [
         {
           data: [
-            result1.expenseArr[0],
-            result1.expenseArr[1],
-            result1.expenseArr[2],
-            result1.expenseArr[3]
+            result.expenseArr[0],
+            result.expenseArr[1],
+            result.expenseArr[2],
+            result.expenseArr[3]
           ],
           backgroundColor: ["green", "red", "yellow", "purple", "brown"],
           borderWidth: 1,
@@ -112,7 +113,7 @@ function createLineChart(result1) {
         fontsize: 25
       },
       legend: {
-        display: true,
+        display: false,
         position: "right",
         labels: {
           fontColor: "black"
@@ -185,4 +186,25 @@ function createdoghnutChart(result2) {
       }
     }
   });
+}
+
+function newdata() {
+  var data = document.getElementById("selectday").value;
+  let newdata = {
+    newdata: data
+  };
+  fetch("/profile", {
+    method: "post",
+    body: JSON.stringify(newdata), // data can be `string` or {object}!
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(result => result.json())
+    .then(res => {
+      console.log(JSON.stringify(res));
+      createPieChart(res);
+      createLineChart(res);
+      createdoghnutChart(res);
+    });
 }

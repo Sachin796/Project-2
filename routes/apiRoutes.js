@@ -8,19 +8,70 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 module.exports = function(app) {
-  //Get all expense data where id = user id
-  app.get("/api/expense", (req, resp) => {
+  app.post("/profile", (req, res) => {
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
-    console.log("ID is " + id);
+    if (req.body.newdata == "week") {
+      let todaysDate = new Date()
+        .toISOString()
+        .replace("Z", "")
+        .replace("T", " ")
+        .slice(0, -4);
+      let weekdate = new Date(new Date().getTime - 7 * (24 * 60 * 60 * 1000))
+        .toISOString()
+        .replace("Z", "")
+        .replace("T", " ")
+        .slice(0, -4);
+      db.Expense.findAll({
+        attributes: ["category", "amount_spent"],
+        where: {
+          UserId: id
+        },
+        from: {
+          $between: [todaysDate, weekdate]
+        }
+      }).then(data => {
+        console.log(data);
+        data.forEach(element => {
+          expenseArr.push(element.dataValues["amount_spent"]);
+          categoryArr.push(element.dataValues["category"]);
+        });
+        let allData = {
+          expenseArr: expenseArr,
+          categoryArr: categoryArr,
+          id: id
+        };
+        console.log(allData);
+        // res.send(allData);
+      });
+    } else if (req.body.newdata == "month") {
+    } else {
+    }
+  });
+
+  //Get all expense data where id = user id
+  app.get("/api/expense", (req, resp) => {
+    console.log(
+      // new Date()
+      //   .replace("Z", "")
+      //   .replace("T", " ")
+      //   .slice(0, -4) <
+      new Date(new Date().getTime() - 7 * (24 * 60 * 60 * 1000))
+        .toISOString()
+        .replace("Z", "")
+        .replace("T", " ")
+        .slice(0, -4)
+    );
+    let id = req.session.passport.user.id;
+    let expenseArr = [];
+    let categoryArr = [];
     db.Expense.findAll({
       attributes: ["category", "amount_spent"],
       where: {
         UserId: id
       }
     }).then(data => {
-      console.log(data);
       data.forEach(element => {
         expenseArr.push(element.dataValues["amount_spent"]);
         categoryArr.push(element.dataValues["category"]);
@@ -34,53 +85,104 @@ module.exports = function(app) {
     });
   });
 
+  // //get week data
+  // app.get("profile/week", (req, resp) => {
+  //   let id = req.session.passport.user.id;
+  //   let expenseArr = [];
+  //   let categoryArr = [];
+  //   console.log("ID is " + id);
+  //   db.Expense.findAll({
+  //     attributes: ["category", "amount_spent"],
+  //     where: {
+  //       UserId: id
+  //     },
+  //     createdAt: {
+  //       $lt: new Date(),
+  //       $gt: new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
+  //     }
+  //   }).then(data => {
+  //     console.log(data);
+  //     data.forEach(element => {
+  //       expenseArr.push(element.dataValues["amount_spent"]);
+  //       categoryArr.push(element.dataValues["category"]);
+  //     });
+  //     let alldata = {
+  //       expenseArr: expenseArr,
+  //       categoryArr: categoryArr,
+  //       id: id
+  //     };
+  //     resp.render("profilePage", { layout: "profile", alldata });
+  //   });
+  // });
+
+  //get month data
+  // app.get("profile/month", (req, resp) => {
+  //   let id = req.session.passport.user.id;
+  //   let expenseArr = [];
+  //   let categoryArr = [];
+  //   console.log("ID is " + id);
+  //   db.Expense.findAll({
+  //     attributes: ["category", "amount_spent"],
+  //     where: {
+  //       UserId: id
+  //     },
+  //     createdAt: {
+  //       $lt: new Date(),
+  //       $gt: new Date(new Date() - 30 * (24 * 60 * 60 * 1000))
+  //     }
+  //   }).then(data => {
+  //     console.log(data);
+  //     data.forEach(element => {
+  //       expenseArr.push(element.dataValues["amount_spent"]);
+  //       categoryArr.push(element.dataValues["category"]);
+  //     });
+  //     let alldata = {
+  //       expenseArr: expenseArr,
+  //       categoryArr: categoryArr,
+  //       id: id
+  //     };
+  //     resp.render("profilePage", { layout: "profile", alldata });
+  //   });
+  // });
 
   //ADD AN EXPENSE
   app.post("/api/add/expense", (req, resp) => {
     let id = req.session.passport.user.id;
-    
+
     // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = (req.body.Address + ","+ " " + req.body.Country)
-    const price = req.body.Amount
-    const category = req.body.Category 
-    const item = req.body.itemName 
-  
+    const Address = req.body.Address + "," + " " + req.body.Country;
+    const price = req.body.Amount;
+    const category = req.body.Category;
+    const item = req.body.itemName;
 
-    googleMapsClient.geocode({address: Address})
-  .asPromise()
-  .then((response) => {
-    
-    const lat = response.json.results[0].geometry.location.lat;
-    const long = response.json.results[0].geometry.location.lng;
-    db.Location.create({
-      long: long,
-      lat: lat,
-      UserId: id
-    }).then(function(insert){
-      let locId = insert.id
-      db.Expense.create({
-        amount_spent: price,
-        category: category,
-        item_name: item,
-        UserId : id,
-        LocationId: locId
-
-      }).then(function(insert){
-        console.log("ALL DONE INSERTS")
-        //resp.sendStatus(200);
-        resp.redirect('/expense');
-        
+    googleMapsClient
+      .geocode({ address: Address })
+      .asPromise()
+      .then(response => {
+        const lat = response.json.results[0].geometry.location.lat;
+        const long = response.json.results[0].geometry.location.lng;
+        db.Location.create({
+          long: long,
+          lat: lat,
+          UserId: id
+        }).then(function(insert) {
+          let locId = insert.id;
+          db.Expense.create({
+            amount_spent: price,
+            category: category,
+            item_name: item,
+            UserId: id,
+            LocationId: locId
+          }).then(function(insert) {
+            //resp.sendStatus(200);
+            resp.redirect("/expense");
+          });
+        });
       })
-      
-    })
-  })
-  .catch((err) => {
-    console.log(err);
-    res.sendStatus(401)
+      .catch(err => {
+        res.sendStatus(401);
+      });
   });
-
-  });
-
 
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
@@ -97,7 +199,6 @@ module.exports = function(app) {
   });
 
   app.post("/api/add/expense", (req, resp) => {
-    console.log(req.body);
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
     const Address = req.body.address + "," + " " + req.body.country;
