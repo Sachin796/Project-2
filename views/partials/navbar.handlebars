@@ -7,12 +7,26 @@
 				class="material-icons">menu</i></a>
 		<ul class="right hide-on-med-and-down">
 			<li><a href="/">Home</a></li>
-			<li><a href="/profile">Profile</a></li>
-			<li><a href="/budget">New Budget</a></li>
+			<li><a class="dropdown-trigger" href="#" data-target="dropdown">Profile<i
+						class="material-icons right">arrow_drop_down</i></a></li>
+
 			<li><a href="/locations">Map</a></li>
 		</ul>
 	</div>
 </nav>
+
+<ul id="dropdown" class="dropdown-content">
+	<li><a href="/profile">Info</a></li>
+	<li><a href="/budget">New Budget</a></li>
+	<li><a href="/expense">Add Expense</a></li>
+	<li class="divider"></li>
+	{{#if loggedIn}}
+	<li><a href="/logout">Logout</a></li>
+	{{ else}}
+	<li><a href="/login">Login</a></li>
+
+	{{/if}}
+</ul>
 
 <ul class="sidenav" id="mobile-demo">
 	<li><a href="/">Home</a></li>

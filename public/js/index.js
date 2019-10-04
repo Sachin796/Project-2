@@ -3,4 +3,5 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
   $(".parallax").parallax();
+  $(".dropdown-trigger").dropdown();
 });

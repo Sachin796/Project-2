@@ -10,8 +10,7 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 module.exports = function(app) {
-  app.post("/profile", (req, res) => {
-    // const Op = sequelize.Op;
+  app.post("/api/profile", (req, res) => {
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
@@ -23,14 +22,11 @@ module.exports = function(app) {
       let newday = newString.concat("-" + todaysDate);
       console.log("Todays date is" + newday);
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
-            [Op.between]: ["2019-09-22", "2019-09-23"]
+            [Op.between]: ["2019-10-1", "2019-10-30"]
           }
         },
         group: ["category"]
@@ -51,17 +47,12 @@ module.exports = function(app) {
     }
     if (req.body.newdata == "week") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
-        .toISOString()
-        .split("T")[0];
+      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
 
       console.log(`Todays date is ${todaysDate} , weeksdate is ${weekdate}`);
 
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
@@ -84,21 +75,12 @@ module.exports = function(app) {
       });
     } else if (req.body.newdata == "month") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const previousMonthDate = new Date(
-        new Date() - 31 * (24 * 60 * 60 * 1000)
-      )
-        .toISOString()
-        .split("T")[0];
+      const previousMonthDate = new Date(new Date() - 31 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
 
-      console.log(
-        `Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`
-      );
+      console.log(`Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`);
 
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
@@ -140,10 +122,7 @@ module.exports = function(app) {
     let expenseArr = [];
     let categoryArr = [];
     db.Expense.findAll({
-      attributes: [
-        "category",
-        [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-      ],
+      attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
       where: {
         UserId: id,
         createdAt: {
