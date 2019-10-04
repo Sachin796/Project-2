@@ -13,25 +13,22 @@ fetch("api/expense")
   });
 
 function createPieChart(result) {
-  var purchaseArr = [];
-  console.log(result.categoryArr);
-  result.categoryArr.forEach(item => {
-    purchaseArr.push(item);
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
   });
-  console.log(purchaseArr);
-  let varchart = document.getElementById("mychart").getContext("2d");
+  let varChart = document.getElementById("mychart").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart = new Chart(varchart, {
+  let popchart = new Chart(varChart, {
     type: "pie", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: result.categoryArr,
       datasets: [
         {
-          data: result.expenseArr,
+          data: expenseData,
           backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "darkblue",
@@ -70,19 +67,23 @@ function createPieChart(result) {
 }
 
 function createLineChart(result) {
-  let varchart1 = document.getElementById("mychart1").getContext("2d");
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
+  });
+  console.log(result);
+  let varChart = document.getElementById("mychart1").getContext("2d");
   console.log(result);
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart1 = new Chart(varchart1, {
+  let popchart1 = new Chart(varChart, {
     type: "bar", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: result.categoryArr,
       datasets: [
         {
-          data: result.expenseArr,
+          data: expenseData,
           backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "#777",
@@ -98,34 +99,37 @@ function createLineChart(result) {
         fontsize: 25
       },
       legend: {
-        display: true,
+        display: false,
         position: "right",
         labels: {
           fontColor: "black"
         }
       },
       tooltips: {
-        enabled: false
+        enabled: true
       }
     }
   });
 }
 
 function createdoghnutChart(result) {
-  let varchart = document.getElementById("mychart2").getContext("2d");
+  let expenseData = result.expenseArr.map(expense => {
+    return parseInt(expense);
+  });
+  let varChart = document.getElementById("mychart2").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Lato";
   Chart.defaults.global.defaultFontFamily = 18;
   Chart.defaults.global.defaultFontFamily = "#777";
 
-  let popchart = new Chart(varchart, {
+  let popchart = new Chart(varChart, {
     type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
     data: {
       labels: result.categoryArr,
       datasets: [
         {
           label: "Population",
-          data: result.expenseArr,
+          data: expenseData,
           backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "darkblue",
