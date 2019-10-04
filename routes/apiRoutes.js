@@ -29,7 +29,7 @@ module.exports = function(app) {
         where: {
           UserId: id,
           createdAt: {
-            [Op.between]: ["2019-10-1", "2019-10-30"]
+            [Op.between]: [todaysDate, "2019-10-30"]
           }
         },
         group: ["category"]
