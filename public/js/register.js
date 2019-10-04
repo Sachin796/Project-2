@@ -6,6 +6,7 @@ $(document).ready(function() {
   $(".registerForm").submit(e => {
     e.preventDefault();
   });
+
   $.ajax({
     url: "/users/login/", //give your url here
     type: "POST",
