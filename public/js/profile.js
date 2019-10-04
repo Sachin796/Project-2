@@ -32,7 +32,7 @@ function createPieChart(result) {
       datasets: [
         {
           data: result.expenseArr,
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
+          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,
@@ -83,7 +83,7 @@ function createLineChart(result) {
       datasets: [
         {
           data: result.expenseArr,
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
+          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "#777",
           hoverBorderWidth: 3,
@@ -98,7 +98,7 @@ function createLineChart(result) {
         fontsize: 25
       },
       legend: {
-        display: false,
+        display: true,
         position: "right",
         labels: {
           fontColor: "black"
@@ -126,7 +126,7 @@ function createdoghnutChart(result) {
         {
           label: "Population",
           data: result.expenseArr,
-          backgroundColor: ["green", "red", "yellow", "purple", "brown"],
+          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,

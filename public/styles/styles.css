@@ -20,6 +20,7 @@ html {
 }
 
 body {
+  margin: 0;
   background-color: #f3f1ef;
   display: flex;
   min-height: 100vh;
@@ -162,4 +163,16 @@ nav {
 .form-style-9 ul li input[type="submit"]:hover {
   background: linear-gradient(to bottom, #2d77a2 5%, #337da8 100%);
   background-color: #28739e;
+}
+
+.login-bottom {
+  height: 10em;
+}
+
+.loginHeader {
+  margin: 2em;
+}
+
+.registerDiv p {
+  margin: 0;
 }

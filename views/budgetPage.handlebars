@@ -5,23 +5,20 @@
     <form action="/api/add/budget" method="POST" class="form-style-9">
       <ul>
         <li>
-          <input type="date" name="fromDate" class="field-style field-split align-right"
-            placeholder="fromDate" />
-
-        </li>
-        <li>
           <input type="text" name="Amount" class="field-style field-split align-left"
             placeholder="Amount" />
-          <input type="date" name="toDate" class="field-style field-split align-right"
-            placeholder="toDate" />
         </li>
         <li>
-          <input type="submit" value="Send Message" />
+          <input type="text" placeholder="From Date.." name="fromDate" class="datepicker">
+          <input type="text" name="toDate" placeholder="To Date" class="datepicker">
+        </li>
+        <li>
+          <input type="submit" value="Add Budget" />
         </li>
       </ul>
     </form>
   </div>
-   <div class="col s6">
+  <div class="col s6">
     <table>
       <thead>
         <tr>
@@ -38,11 +35,11 @@
           <td>{{fromDate}}</td>
           <td>{{toDate}}</td>
           <td>{{budgetAmt}}</td>
-        {{/each}}
+          {{/each}}
           <td>{{budgetLeft}}</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-  <script src="/js/budget.js"></script>
+<script src="/js/budget.js"></script>
