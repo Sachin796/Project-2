@@ -11,9 +11,12 @@ const googleMapsClient = require("@google/maps").createClient({
 
 module.exports = function(app) {
   app.post("/api/profile", (req, res) => {
+    //Define vars
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
+
+    //SELECTED = DAY
     if (req.body.newdata == "day") {
       let todaysMonth = JSON.stringify(new Date().getMonth());
       let todaysDate = JSON.stringify(new Date().getDate());
@@ -45,6 +48,8 @@ module.exports = function(app) {
         res.send(allData);
       });
     }
+
+    //SELECTED = WEEK
     if (req.body.newdata == "week") {
       let todaysDate = new Date().toISOString().split("T")[0];
       const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
@@ -73,7 +78,10 @@ module.exports = function(app) {
         };
         res.send(allData);
       });
-    } else if (req.body.newdata == "month") {
+    }
+
+    //SELECTED = MONTH
+    if (req.body.newdata == "month") {
       let todaysDate = new Date().toISOString().split("T")[0];
       const previousMonthDate = new Date(new Date() - 31 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
 
@@ -101,7 +109,6 @@ module.exports = function(app) {
         };
         res.send(allData);
       });
-    } else {
     }
   });
 
@@ -124,10 +131,10 @@ module.exports = function(app) {
     db.Expense.findAll({
       attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
       where: {
-        UserId: id,
-        createdAt: {
-          [Op.between]: ["2019-09-22", "2019-09-24"]
-        }
+        UserId: id
+        // createdAt: {
+        //   [Op.between]: ["2019-09-22", "2019-09-24"]
+        // }
       },
       group: ["category"]
     }).then(data => {
