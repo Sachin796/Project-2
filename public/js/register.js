@@ -5,29 +5,27 @@ $(document).ready(function() {
 
   $(".registerForm").submit(e => {
     e.preventDefault();
-    console.log(e);
-    console.log($(this));
-
     let user = $("#username").val();
     let pass = $("#password").val();
     let loginData = {
       username: user,
       password: pass
     };
+
+    //Request
     $.ajax({
       url: "/api/auth/register", //give your url here
       type: "POST",
       dataType: "json",
       data: loginData,
-      success: function(data) {
-        console.log(data);
-        //  alert(data);    do your stuff
-      },
       error: function(data) {
-        console.log(data.responseJSON);
-        let err = data.responseJSON.err;
-        M.toast({ html: err });
-        //  alert(data);    do your stuff
+        console.log(data.status);
+        if (data.status === 500) {
+          let err = data.responseJSON.error;
+          M.toast({ html: err });
+        } else {
+          document.location.href = "/login";
+        }
       }
     });
   });
