@@ -16,7 +16,7 @@ module.exports = function(passport) {
       }
     }).then((err, res) => {
       if (err) {
-        resp.status(500).send("USER EXISTS");
+        resp.status(500).send({ err: "User Already Exists!" });
       } else {
         console.log("HELLO");
         let newUser = new db.User();
