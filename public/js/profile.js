@@ -99,72 +99,79 @@ $(document).ready(function() {
           text: "Expenses",
           fontsize: 25
         },
-        legend: {
-          display: false,
-          position: "right",
-          labels: {
-            fontColor: "black"
+        options: {
+          title: {
+            display: true,
+            text: "Expenses",
+            fontsize: 25
+          },
+          legend: {
+            display: false,
+            position: "right",
+            labels: {
+              fontColor: "black"
+            }
+          },
+          tooltips: {
+            enabled: true
           }
-        },
-        tooltips: {
-          enabled: true
         }
       }
     });
-  }
 
-  function createdoghnutChart(result) {
-    let expenseData = result.expenseArr.map(expense => {
-      return parseInt(expense);
-    });
-    let varChart = document.getElementById("mychart2").getContext("2d");
+    function createdoghnutChart(result) {
+      let expenseData = result.expenseArr.map(expense => {
+        return parseInt(expense);
+      });
+      let varChart = document.getElementById("mychart2").getContext("2d");
 
-    Chart.defaults.global.defaultFontFamily = "Lato";
-    Chart.defaults.global.defaultFontFamily = 18;
-    Chart.defaults.global.defaultFontFamily = "#777";
+      Chart.defaults.global.defaultFontFamily = "Lato";
+      Chart.defaults.global.defaultFontFamily = 18;
+      Chart.defaults.global.defaultFontFamily = "#777";
 
-    let popchart = new Chart(varChart, {
-      type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
-      data: {
-        labels: result.categoryArr,
-        datasets: [
-          {
-            label: "Population",
-            data: expenseData,
-            backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
-            borderWidth: 1,
-            borderColor: "darkblue",
-            hoverBorderWidth: 3,
-            hoverBorderColor: "black"
-          }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Expenses",
-          fontsize: 25
-        },
-
-        legend: {
-          display: true,
-          position: "right",
-          labels: {
-            fontColor: "black"
-          }
+      let popchart = new Chart(varChart, {
+        type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
+        data: {
+          labels: result.categoryArr,
+          datasets: [
+            {
+              label: "Population",
+              data: expenseData,
+              backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+              borderWidth: 1,
+              borderColor: "darkblue",
+              hoverBorderWidth: 3,
+              hoverBorderColor: "black"
+            }
+          ]
         },
         options: {
-          animation: {
-            duration: 5000,
-            onProgress: function(animation) {
-              progress.value = animation.currentStep / animation.numSteps;
+          title: {
+            display: true,
+            text: "Expenses",
+            fontsize: 25
+          },
+
+          legend: {
+            display: true,
+            position: "right",
+            labels: {
+              fontColor: "black"
             }
+          },
+          options: {
+            animation: {
+              duration: 5000,
+              onProgress: function(animation) {
+                progress.value = animation.currentStep / animation.numSteps;
+              }
+            }
+          },
+          tooltips: {
+            enabled: true
           }
-        },
-        tooltips: {
-          enabled: true
         }
-      }
-    });
+      });
+    }
   }
 });

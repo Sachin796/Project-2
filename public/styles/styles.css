@@ -27,6 +27,18 @@ body {
   flex-direction: column;
 }
 
+select {
+  display: block;
+  width: 20%;
+  align-content: center;
+  float: right;
+  margin-right: 20px;
+}
+
+#text {
+  font-size: 28px;
+  font-weight: 700;
+}
 main {
   flex: 1 0 auto;
 }
