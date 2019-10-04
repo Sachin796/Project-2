@@ -3,6 +3,7 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
 });
+
 fetch("api/expense")
   .then(res => res.json())
   .then(result => {
@@ -29,7 +30,13 @@ function createPieChart(result) {
       datasets: [
         {
           data: expenseData,
-          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
+          ],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,
@@ -84,7 +91,13 @@ function createLineChart(result) {
       datasets: [
         {
           data: expenseData,
-          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
+          ],
           borderWidth: 1,
           borderColor: "#777",
           hoverBorderWidth: 3,
@@ -130,7 +143,13 @@ function createdoghnutChart(result) {
         {
           label: "Population",
           data: expenseData,
-          backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+          backgroundColor: [
+            "#5BC0EB",
+            "#FDE74C",
+            "#9BC53D",
+            "#E55934",
+            "#B3001B"
+          ],
           borderWidth: 1,
           borderColor: "darkblue",
           hoverBorderWidth: 3,
@@ -165,4 +184,25 @@ function createdoghnutChart(result) {
       }
     }
   });
+}
+
+function newdata() {
+  var data = document.getElementById("selectday").value;
+  let newdata = {
+    newdata: data
+  };
+  fetch("/profile", {
+    method: "post",
+    body: JSON.stringify(newdata), // data can be `string` or {object}!
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(result => result.json())
+    .then(res => {
+      console.log(JSON.stringify(res));
+      createPieChart(res);
+      createLineChart(res);
+      createdoghnutChart(res);
+    });
 }
