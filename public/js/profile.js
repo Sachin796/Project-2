@@ -3,7 +3,7 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
 
-  fetch("api/expense")
+  fetch("/api/expense")
     .then(res => res.json())
     .then(result => {
       console.log(result);
@@ -167,10 +167,9 @@ $(document).ready(function() {
     });
   }
 
-  function newdata() {
-    var data = document.getElementById("selectday").value;
+  $("#selectday").on("change", function() {
     let newdata = {
-      newdata: data
+      newdata: this.value
     };
 
     fetch("/api/profile", {
@@ -187,5 +186,5 @@ $(document).ready(function() {
         createLineChart(res);
         createdoghnutChart(res);
       });
-  }
+  });
 }); //^^^EVERYTHING SHOULD BE IN HERE

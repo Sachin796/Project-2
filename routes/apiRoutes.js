@@ -10,9 +10,7 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 module.exports = function(app) {
-  ///api/profile
-  app.post("/profile", (req, res) => {
-    // const Op = sequelize.Op;
+  app.post("/api/profile", (req, res) => {
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
