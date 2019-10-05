@@ -4,6 +4,10 @@ $(document).ready(function() {
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
   $("select").formSelect();
+  //==============================
+
+  //Define Global Vars
+  let markers = [];
 
   //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
@@ -15,28 +19,37 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
-  //Get locations spent at.
-  fetch("/api/get/locations")
-    .then(res => res.json())
-    .then(result => {
-      console.log(result);
-      result.forEach(purchase => {
-        console.log(purchase);
-        let total = purchase.total;
-        let address = purchase.Location.address;
-        let long = purchase.Location.longitude;
-        let lat = purchase.Location.latitude;
+  const getNewData = () => {
+    markers = [];
+    fetch("/api/get/locations")
+      .then(res => res.json())
+      .then(result => {
+        result.forEach(purchase => {
+          console.log(purchase);
+          let total = purchase.total;
+          let { address, longitude, latitude } = purchase.Location;
+          console.log(address, longitude, latitude);
+          markers.push([latitude, longitude, { address: address, total: total }]);
+          let table = $("tbody");
+          table.append(`<tr><td>${address}</td><td>$${total}</td></tr>`);
+        });
 
-        let table = $("tbody");
-        table.append(`<tr><td>${address}</td><td>${total}</td></tr>`);
+        for (var i = 0; i < markers.length; i++) {
+          let lat = markers[i][0];
+          let lon = markers[i][1];
+          let { address, total } = markers[i][2];
+          console.log(address, total);
 
-        var marker = L.marker([lat, long]).addTo(myMap);
-        marker.bindPopup(
-          `<b>${address}<div style="text-align: center;"></b><br><span>Total Spent To Date Here:</span><span><br>$${total}</span><br></div>`
-        );
+          var markerLocation = new L.LatLng(lat, lon);
+          var marker = new L.Marker(markerLocation);
+
+          myMap.addLayer(marker);
+          marker.bindPopup(`<div><b><span>${address}</span></b><br><span>Total Spent Here: $${total}</span></div>`);
+        }
+      })
+      .catch(err => {
+        throw err;
       });
-    })
-    .catch(err => {
-      throw err;
-    });
+  }; //GET DATA FUNC
+  getNewData();
 });

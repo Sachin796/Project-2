@@ -75,6 +75,7 @@ $(document).ready(function() {
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
     });
+    console.log(expenseData);
     let varChart = document.getElementById("mychart1").getContext("2d");
     console.log(result);
     Chart.defaults.global.defaultFontFamily = "Lato";
