@@ -1,13 +1,19 @@
 <div class="row">
 	<div class="map-container col s12">
-		<div id="weatherMap" class="z-depth-2">
-
-		</div>
+		<div id="weatherMap" class="z-depth-2"></div>
 	</div>
 </div>
 <div class="row">
 	<div class="col s12">
 		<div class="container">
+			<div class="selectDiv input-field">
+				<select id="selectday">
+					<option value="" disabled selected>Select Date Range</option>
+					<option value="day">Day</option>
+					<option value="week">Week</option>
+					<option value="month">Month</option>
+				</select>
+			</div>
 			<table class="responsive-table">
 				<thead>
 					<tr>

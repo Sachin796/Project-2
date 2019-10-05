@@ -24,7 +24,6 @@
 	<li><a href="/logout">Logout</a></li>
 	{{ else}}
 	<li><a href="/login">Login</a></li>
-
 	{{/if}}
 </ul>
 
@@ -32,5 +31,11 @@
 	<li><a href="/">Home</a></li>
 	<li><a href="/profile">Profile</a></li>
 	<li><a href="/budget">New Budget</a></li>
+	<li><a href="/expense">Add Expense</a></li>
 	<li><a href="/locations">Map</a></li>
+	{{#if loggedIn}}
+	<li><a href="/logout">Logout</a></li>
+	{{ else}}
+	<li><a href="/login">Login</a></li>
+	{{/if}}
 </ul>

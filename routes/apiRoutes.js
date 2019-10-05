@@ -196,10 +196,16 @@ module.exports = function(app) {
   app.get("/api/get/locations", (req, resp) => {
     let id = req.session.passport.user.id;
     db.Expense.findAll({
-      include: [{ model: db.Location, required: true }],
-      where: {
-        UserId: id
-      }
+      where: { UserId: id },
+      attributes: ["id", "Location.longitude", [sequelize.fn("sum", sequelize.col("Expense.amount_spent")), "total"]],
+      include: [
+        {
+          model: db.Location,
+          required: true,
+          attributes: []
+        }
+      ],
+      group: ["Expense.id"]
     }).then(res => {
       resp.json(res);
     });
@@ -209,7 +215,7 @@ module.exports = function(app) {
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
     const address = req.body.Address + "," + " " + req.body.Country;
-    console.log("THIS RIGHT HERE IS THE ADDRESS COMING OVER" + address)
+    console.log("THIS RIGHT HERE IS THE ADDRESS COMING OVER" + address);
     const price = req.body.Amount;
     const category = req.body.Category;
     const item = req.body.itemName;
@@ -243,7 +249,7 @@ module.exports = function(app) {
       })
       .catch(err => {
         console.log(err);
-        resp.status(401).send({error: "Please enter a valid address."})
+        resp.status(401).send({ error: "Please enter a valid address." });
       });
   });
 
@@ -271,19 +277,5 @@ module.exports = function(app) {
       });
     });
     // console.log(req.body);
-  });
-
-  //GET LOCATIONS FROM USER IN DB API
-  //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
-  app.get("/api/get/locations", (req, resp) => {
-    let id = req.session.passport.user.id;
-    db.Expense.findAll({
-      include: [{ model: db.Location, required: true }],
-      where: {
-        UserId: id
-      }
-    }).then(res => {
-      resp.json(res);
-    });
   });
 };

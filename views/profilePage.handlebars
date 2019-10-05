@@ -1,13 +1,13 @@
 <div id="top">
-	<p>
-		<span id="text"> Welcome, {{username}}</span>
+	<span id="text"> Welcome, {{username}}</span>
+	<div class="selectDiv input-field">
 		<select id="selectday">
+			<option value="" disabled selected>Select Date Range</option>
 			<option value="day">Day</option>
 			<option value="week">Week</option>
 			<option value="month">Month</option>
 		</select>
-		<p>
-
+	</div>
 </div>
 <h4 id="textdata">Your Expenses</h4>
 
@@ -17,7 +17,6 @@
 	<section id="piechart">
 		<canvas id="mychart"></canvas>
 	</section>
-
 
 	<section id="linechart">
 		<canvas id="mychart1"></canvas>

@@ -1,11 +1,9 @@
 $(document).ready(function() {
-  //LOCALSTORAGE TEMP STORE, UNTIL LOGIN FUNCTIONALITY.
-  localStorage.setItem("user", "testing123");
-
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
+  $("select").formSelect();
 
   //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
@@ -17,6 +15,7 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
+  //Get locations spent at.
   fetch("/api/get/locations")
     .then(res => res.json())
     .then(result => {

@@ -3,6 +3,7 @@ $(document).ready(function() {
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
+  $("select").formSelect();
 
   //initial call for data.
   fetch("/api/expense")
