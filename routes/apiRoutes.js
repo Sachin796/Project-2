@@ -49,10 +49,10 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        if (expenseArr.length == 0) {
-          res.send("error");
-        } else {
+        if (expenseArr.length != 0) {
           res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
         }
       });
     }
@@ -63,8 +63,6 @@ module.exports = function(app) {
       const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
         .toISOString()
         .split("T")[0];
-
-      console.log(`Todays date is ${todaysDate} , weeksdate is ${weekdate}`);
 
       db.Expense.findAll({
         attributes: [
@@ -89,10 +87,10 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        if (expenseArr.length == 0) {
-          res.send("error");
-        } else {
+        if (expenseArr.length != 0) {
           res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
         }
       });
     }
@@ -133,28 +131,17 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        if (expenseArr.length == 0) {
-          res.send("error");
-        } else {
+        if (expenseArr.length != 0) {
           res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
         }
       });
     }
   });
 
   //Get all expense data where id = user id
-  app.get("/api/expense", (req, resp) => {
-    // console.log(
-    //   // new Date()
-    //   //   .replace("Z", "")
-    //   //   .replace("T", " ")
-    //   //   .slice(0, -4) <
-    //   new Date(new Date().getTime() - 7 * (24 * 60 * 60 * 1000))
-    //     .toISOString()
-    //     .replace("Z", "")
-    //     .replace("T", " ")
-    //     .slice(0, -4)
-    // );
+  app.get("/api/expense", (req, res) => {
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
@@ -176,61 +163,30 @@ module.exports = function(app) {
         expenseArr.push(element.dataValues["total"]);
         categoryArr.push(element.dataValues["category"]);
       });
-      let alldata = {
-        expenseArr: expenseArr,
-        categoryArr: categoryArr,
-        id: id
-      };
-      if (expenseArr.length == 0) {
-        resp.send("error");
+
+      if (expenseArr.length != 0) {
+        let allData = {
+          expenseArr: expenseArr,
+          categoryArr: categoryArr,
+          id: id,
+          status: "ok"
+        };
+        res.send(allData);
       } else {
-        resp.json(allData);
+        let allData = {
+          expenseArr: expenseArr,
+          categoryArr: categoryArr,
+          id: id,
+          status: "error"
+        };
+        res.send(allData);
       }
     });
   });
 
-  //ADD AN EXPENSE
-  // app.post("/api/add/expense", (req, resp) => {
-  //   let id = req.session.passport.user.id;
-
-  //   // console.log(req.body.Address + ","+ " " + req.body.Country)
-  //   const Address = req.body.Address + "," + " " + req.body.Country;
-  //   const price = req.body.Amount;
-  //   const category = req.body.Category;
-  //   const item = req.body.itemName;
-
-  //   googleMapsClient
-  //     .geocode({ address: Address })
-  //     .asPromise()
-  //     .then(response => {
-  //       const lat = response.json.results[0].geometry.location.lat;
-  //       const long = response.json.results[0].geometry.location.lng;
-  //       db.Location.create({
-  //         long: long,
-  //         lat: lat,
-  //         UserId: id
-  //       }).then(function(insert) {
-  //         let locId = insert.id;
-  //         db.Expense.create({
-  //           amount_spent: price,
-  //           category: category,
-  //           item_name: item,
-  //           UserId: id,
-  //           LocationId: locId
-  //         }).then(function(insert) {
-  //           //rredirectesp.sendStatus(200);
-  //           resp.("/expense");
-  //         });
-  //       });
-  //     })
-  //     .catch(err => {
-  //       res.sendStatus(401);
-  //     });
-  // });
-
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
-  app.get("/api/get/locations", (req, resp) => {
+  app.get("/api/get/locations", (req, res) => {
     let id = req.session.passport.user.id;
 
     db.Expense.findAll({
@@ -244,12 +200,12 @@ module.exports = function(app) {
       where: { UserId: id },
       group: ["Location.address", "Location.latitude", "Location.longitude"]
     }).then(data => {
-      resp.json(data);
+      res.json(data);
     });
   });
 
   //ADD AN EXPENSE
-  app.post("/api/add/expense", (req, resp) => {
+  app.post("/api/add/expense", (req, res) => {
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
     const address = req.body.Address + "," + " " + req.body.Country;
@@ -281,19 +237,19 @@ module.exports = function(app) {
             LocationId: LocationId
           }).then(function(insert) {
             console.log("ALL DONE INSERTS");
-            //resp.sendStatus(200);
-            resp.redirect("/expense");
+            //res.sendStatus(200);
+            res.redirect("/expense");
           });
         });
       })
       .catch(err => {
         console.log(err);
-        resp.status(401).send({ error: "Please enter a valid address." });
+        res.status(401).send({ error: "Please enter a valid address." });
       });
   });
 
   // TAKES INPUT FROM BUDGET PAGE AND UPDATES BUDGET TABLE. ONLY RECORDS ACTIVE BUDGET IN TABLE
-  app.post("/api/add/budget", (req, resp) => {
+  app.post("/api/add/budget", (req, res) => {
     console.log(req.body);
     let id = req.session.passport.user.id;
     let fromDate = req.body.fromDate;
@@ -311,8 +267,8 @@ module.exports = function(app) {
         UserId: id
       }).then(function() {
         console.log("ALL DONE INSERTS");
-        //resp.sendStatus(200);
-        resp.redirect("/budget");
+        //res.sendStatus(200);
+        res.redirect("/budget");
       });
     });
     // console.log(req.body);

@@ -1,3 +1,12 @@
+let colorArray = []; //array fo storing random color
+
+//fetch json file
+fetch("./js/colors.json")
+  .then(response => response.json())
+  .then(json => {
+    colorArray = json.colors;
+  });
+
 $(document).ready(function() {
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
@@ -9,10 +18,21 @@ $(document).ready(function() {
   fetch("/api/expense")
     .then(res => res.json())
     .then(result => {
-      console.log(result);
-      // createChart(result);
+      console.log(result.status);
+      if (result.status == "ok") {
+        createChart(result);
+      } else {
+        alert("NO data found");
+      }
     });
   function createChart(result) {
+    let randomColorArray = [];
+    for (let i = 0; i < result.expenseArr.length; i++) {
+      randomColorArray.push(
+        colorArray[Math.floor(Math.random() * colorArray.length)]
+      );
+    }
+
     //Start of Pi Chart
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
@@ -30,13 +50,7 @@ $(document).ready(function() {
         datasets: [
           {
             data: expenseData,
-            backgroundColor: [
-              "#5BC0EB",
-              "#FDE74C",
-              "#9BC53D",
-              "#E55934",
-              "#B3001B"
-            ],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "darkblue",
             hoverBorderWidth: 3,
@@ -88,13 +102,7 @@ $(document).ready(function() {
         datasets: [
           {
             data: [...expenseData],
-            backgroundColor: [
-              "#5BC0EB",
-              "#FDE74C",
-              "#9BC53D",
-              "#E55934",
-              "#B3001B"
-            ],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "#777",
             hoverBorderWidth: 3,
@@ -138,13 +146,7 @@ $(document).ready(function() {
           {
             label: "Population",
             data: expenseData,
-            backgroundColor: [
-              "#5BC0EB",
-              "#FDE74C",
-              "#9BC53D",
-              "#E55934",
-              "#B3001B"
-            ],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "darkblue",
             hoverBorderWidth: 3,
@@ -181,7 +183,6 @@ $(document).ready(function() {
     });
 
     $(document).on("change", "select", function(e) {
-      console.log(e.target.value); //val
       popchart.destroy();
       popchart1.destroy();
       popchart2.destroy();
