@@ -24,6 +24,13 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false
       }
     });
+
+    models.Location.hasMany(models.Expense, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
   return Location;
 };
