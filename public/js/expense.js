@@ -19,6 +19,7 @@ $(document).ready(function() {
       Category: category,
       itemName: itemName
     };
+    console.log(expenseData);
     console.log("here2");
     //Request
     $.ajax({
