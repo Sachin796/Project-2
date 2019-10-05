@@ -25,7 +25,10 @@ module.exports = function(app) {
       let newday = newString.concat("-" + todaysDate);
       console.log("Todays date is" + newday);
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -36,6 +39,8 @@ module.exports = function(app) {
       }).then(data => {
         console.log("All data is " + JSON.stringify(data));
         data.forEach(element => {
+          // if(element.dataValues["total"].length)
+          console.log(element.dataValues["total"]);
           expenseArr.push(element.dataValues["total"]);
           categoryArr.push(element.dataValues["category"]);
         });
@@ -44,20 +49,28 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        // console.log("One day data is " + JSON.stringify(allData));
-        res.send(allData);
+        if (expenseArr.length == 0) {
+          res.send("error");
+        } else {
+          res.send(allData);
+        }
       });
     }
 
     //SELECTED = WEEK
     if (req.body.newdata == "week") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
+      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
+        .toISOString()
+        .split("T")[0];
 
       console.log(`Todays date is ${todaysDate} , weeksdate is ${weekdate}`);
 
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -76,19 +89,32 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        res.send(allData);
+        if (expenseArr.length == 0) {
+          res.send("error");
+        } else {
+          res.send(allData);
+        }
       });
     }
 
     //SELECTED = MONTH
     if (req.body.newdata == "month") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const previousMonthDate = new Date(new Date() - 31 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
+      const previousMonthDate = new Date(
+        new Date() - 31 * (24 * 60 * 60 * 1000)
+      )
+        .toISOString()
+        .split("T")[0];
 
-      console.log(`Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`);
+      console.log(
+        `Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`
+      );
 
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -107,7 +133,11 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        res.send(allData);
+        if (expenseArr.length == 0) {
+          res.send("error");
+        } else {
+          res.send(allData);
+        }
       });
     }
   });
@@ -129,7 +159,10 @@ module.exports = function(app) {
     let expenseArr = [];
     let categoryArr = [];
     db.Expense.findAll({
-      attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+      attributes: [
+        "category",
+        [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+      ],
       where: {
         UserId: id
         // createdAt: {
@@ -148,7 +181,11 @@ module.exports = function(app) {
         categoryArr: categoryArr,
         id: id
       };
-      resp.json(alldata);
+      if (expenseArr.length == 0) {
+        resp.send("error");
+      } else {
+        resp.json(allData);
+      }
     });
   });
 

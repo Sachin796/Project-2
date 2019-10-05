@@ -10,13 +10,9 @@ $(document).ready(function() {
     .then(res => res.json())
     .then(result => {
       console.log(result);
-      createChart(result);
+      // createChart(result);
     });
   function createChart(result) {
-    //Destroy previous instances
-
-    // popchart1.destroy();
-    // popchart2.destroy();
     //Start of Pi Chart
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
