@@ -55,7 +55,11 @@ if (process.env.NODE_ENV === "test") {
 db.sequelizeConnection.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
     // eslint-disable-next-line prettier/prettier
-    console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+    console.log(
+      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
+      PORT,
+      PORT
+    );
   });
 });
 
