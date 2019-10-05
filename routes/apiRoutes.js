@@ -25,7 +25,10 @@ module.exports = function(app) {
       let newday = newString.concat("-" + todaysDate);
       console.log("Todays date is" + newday);
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -36,6 +39,8 @@ module.exports = function(app) {
       }).then(data => {
         console.log("All data is " + JSON.stringify(data));
         data.forEach(element => {
+          // if(element.dataValues["total"].length)
+          console.log(element.dataValues["total"]);
           expenseArr.push(element.dataValues["total"]);
           categoryArr.push(element.dataValues["category"]);
         });
@@ -44,20 +49,26 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        // console.log("One day data is " + JSON.stringify(allData));
-        res.send(allData);
+        if (expenseArr.length != 0) {
+          res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
+        }
       });
     }
 
     //SELECTED = WEEK
     if (req.body.newdata == "week") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
-
-      console.log(`Todays date is ${todaysDate} , weeksdate is ${weekdate}`);
+      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
+        .toISOString()
+        .split("T")[0];
 
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -76,19 +87,32 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        res.send(allData);
+        if (expenseArr.length != 0) {
+          res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
+        }
       });
     }
 
     //SELECTED = MONTH
     if (req.body.newdata == "month") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const previousMonthDate = new Date(new Date() - 31 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
+      const previousMonthDate = new Date(
+        new Date() - 31 * (24 * 60 * 60 * 1000)
+      )
+        .toISOString()
+        .split("T")[0];
 
-      console.log(`Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`);
+      console.log(
+        `Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`
+      );
 
       db.Expense.findAll({
-        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+        attributes: [
+          "category",
+          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+        ],
         where: {
           UserId: id,
           createdAt: {
@@ -107,29 +131,25 @@ module.exports = function(app) {
           categoryArr: categoryArr,
           id: id
         };
-        res.send(allData);
+        if (expenseArr.length != 0) {
+          res.send(allData);
+        } else {
+          res.send({ Error: "No data Available" });
+        }
       });
     }
   });
 
   //Get all expense data where id = user id
-  app.get("/api/expense", (req, resp) => {
-    // console.log(
-    //   // new Date()
-    //   //   .replace("Z", "")
-    //   //   .replace("T", " ")
-    //   //   .slice(0, -4) <
-    //   new Date(new Date().getTime() - 7 * (24 * 60 * 60 * 1000))
-    //     .toISOString()
-    //     .replace("Z", "")
-    //     .replace("T", " ")
-    //     .slice(0, -4)
-    // );
+  app.get("/api/expense", (req, res) => {
     let id = req.session.passport.user.id;
     let expenseArr = [];
     let categoryArr = [];
     db.Expense.findAll({
-      attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
+      attributes: [
+        "category",
+        [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
+      ],
       where: {
         UserId: id
         // createdAt: {
@@ -143,18 +163,30 @@ module.exports = function(app) {
         expenseArr.push(element.dataValues["total"]);
         categoryArr.push(element.dataValues["category"]);
       });
-      let alldata = {
-        expenseArr: expenseArr,
-        categoryArr: categoryArr,
-        id: id
-      };
-      resp.json(alldata);
+
+      if (expenseArr.length != 0) {
+        let allData = {
+          expenseArr: expenseArr,
+          categoryArr: categoryArr,
+          id: id,
+          status: "ok"
+        };
+        res.send(allData);
+      } else {
+        let allData = {
+          expenseArr: expenseArr,
+          categoryArr: categoryArr,
+          id: id,
+          status: "error"
+        };
+        res.send(allData);
+      }
     });
   });
 
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
-  app.get("/api/get/locations", (req, resp) => {
+  app.get("/api/get/locations", (req, res) => {
     let id = req.session.passport.user.id;
 
     db.Expense.findAll({
@@ -168,12 +200,12 @@ module.exports = function(app) {
       where: { UserId: id },
       group: ["Location.address", "Location.latitude", "Location.longitude"]
     }).then(data => {
-      resp.json(data);
+      res.json(data);
     });
   });
 
   //ADD AN EXPENSE
-  app.post("/api/add/expense", (req, resp) => {
+  app.post("/api/add/expense", (req, res) => {
     let id = req.session.passport.user.id;
     // console.log(req.body.Address + ","+ " " + req.body.Country)
     const address = req.body.Address + "," + " " + req.body.Country;
@@ -205,19 +237,19 @@ module.exports = function(app) {
             LocationId: LocationId
           }).then(function(insert) {
             console.log("ALL DONE INSERTS");
-            //resp.sendStatus(200);
-            resp.redirect("/expense");
+            //res.sendStatus(200);
+            res.redirect("/expense");
           });
         });
       })
       .catch(err => {
         console.log(err);
-        resp.status(401).send({ error: "Please enter a valid address." });
+        res.status(401).send({ error: "Please enter a valid address." });
       });
   });
 
   // TAKES INPUT FROM BUDGET PAGE AND UPDATES BUDGET TABLE. ONLY RECORDS ACTIVE BUDGET IN TABLE
-  app.post("/api/add/budget", (req, resp) => {
+  app.post("/api/add/budget", (req, res) => {
     console.log(req.body);
     let id = req.session.passport.user.id;
     let fromDate = req.body.fromDate;
@@ -235,8 +267,8 @@ module.exports = function(app) {
         UserId: id
       }).then(function() {
         console.log("ALL DONE INSERTS");
-        //resp.sendStatus(200);
-        resp.redirect("/budget");
+        //res.sendStatus(200);
+        res.redirect("/budget");
       });
     });
     // console.log(req.body);

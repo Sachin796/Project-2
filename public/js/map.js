@@ -52,4 +52,20 @@ $(document).ready(function() {
       });
   }; //GET DATA FUNC
   getNewData();
+
+  //NEW
+
+  fetch("/api/get/locations")
+    .then(res => res.json())
+    .then(result => {
+      result.forEach(purchase => {
+        console.log(purchase);
+        let total = purchase.total;
+        let { address, longitude, latitude } = purchase.Location;
+        console.log(address, longitude, latitude);
+      });
+    })
+    .catch(err => {
+      throw err;
+    });
 });

@@ -1,3 +1,12 @@
+let colorArray = []; //array fo storing random color
+
+//fetch json file
+fetch("./js/colors.json")
+  .then(response => response.json())
+  .then(json => {
+    colorArray = json.colors;
+  });
+
 $(document).ready(function() {
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
@@ -9,14 +18,22 @@ $(document).ready(function() {
   fetch("/api/expense")
     .then(res => res.json())
     .then(result => {
-      console.log(result);
-      createPieChart(result);
-      createLineChart(result);
-      createdoghnutChart(result);
+      console.log(result.status);
+      if (result.status == "ok") {
+        createChart(result);
+      } else {
+        alert("NO data found");
+      }
     });
+  function createChart(result) {
+    let randomColorArray = [];
+    for (let i = 0; i < result.expenseArr.length; i++) {
+      randomColorArray.push(
+        colorArray[Math.floor(Math.random() * colorArray.length)]
+      );
+    }
 
-  //CREATE PIE CHART
-  function createPieChart(result) {
+    //Start of Pi Chart
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
     });
@@ -33,7 +50,7 @@ $(document).ready(function() {
         datasets: [
           {
             data: expenseData,
-            backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "darkblue",
             hoverBorderWidth: 3,
@@ -68,8 +85,8 @@ $(document).ready(function() {
         }
       }
     });
-  }
 
+<<<<<<< HEAD
   //CREATE BAR GRAPH
   function createLineChart(result) {
     let expenseData = result.expenseArr.map(expense => {
@@ -78,18 +95,25 @@ $(document).ready(function() {
     console.log(expenseData);
     let varChart = document.getElementById("mychart1").getContext("2d");
     console.log(result);
+=======
+    //End of pi chart
+    //Start of line Chart
+
+    let varChart1 = document.getElementById("mychart1").getContext("2d");
+    // console.log(result);
+>>>>>>> ac654db5b5cc3aec322d12aebed7ed39ca3d6058
     Chart.defaults.global.defaultFontFamily = "Lato";
     Chart.defaults.global.defaultFontFamily = 18;
     Chart.defaults.global.defaultFontFamily = "#777";
 
-    let popchart1 = new Chart(varChart, {
+    let popchart1 = new Chart(varChart1, {
       type: "bar", //bar horizontalBar pie line doughnut radar polarArea
       data: {
         labels: result.categoryArr,
         datasets: [
           {
-            data: expenseData,
-            backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+            data: [...expenseData],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "#777",
             hoverBorderWidth: 3,
@@ -115,20 +139,17 @@ $(document).ready(function() {
         }
       }
     });
-  }
 
-  //CREATE DONUT GRAPH
-  function createdoghnutChart(result) {
-    let expenseData = result.expenseArr.map(expense => {
-      return parseInt(expense);
-    });
-    let varChart = document.getElementById("mychart2").getContext("2d");
+    //End of line chart
+    // Start of doughnut Chart
+
+    let varChart2 = document.getElementById("mychart2").getContext("2d");
 
     Chart.defaults.global.defaultFontFamily = "Lato";
     Chart.defaults.global.defaultFontFamily = 18;
     Chart.defaults.global.defaultFontFamily = "#777";
 
-    let popchart = new Chart(varChart, {
+    let popchart2 = new Chart(varChart2, {
       type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
       data: {
         labels: result.categoryArr,
@@ -136,7 +157,7 @@ $(document).ready(function() {
           {
             label: "Population",
             data: expenseData,
-            backgroundColor: ["#5BC0EB", "#FDE74C", "#9BC53D", "#E55934", "#B3001B"],
+            backgroundColor: randomColorArray,
             borderWidth: 1,
             borderColor: "darkblue",
             hoverBorderWidth: 3,
@@ -171,10 +192,16 @@ $(document).ready(function() {
         }
       }
     });
+
+    $(document).on("change", "select", function(e) {
+      popchart.destroy();
+      popchart1.destroy();
+      popchart2.destroy();
+    });
   }
 
   //oncChange handler for date dropdown
-  $("#selectday").on("change", function() {
+  $(document).on("change", "select", function() {
     let newdata = {
       newdata: this.value
     };
@@ -189,9 +216,7 @@ $(document).ready(function() {
       .then(result => result.json())
       .then(res => {
         console.log(JSON.stringify(res));
-        createPieChart(res);
-        createLineChart(res);
-        createdoghnutChart(res);
+        createChart(res);
       });
   });
 }); //^^^EVERYTHING SHOULD BE IN HERE
