@@ -1,11 +1,9 @@
 $(document).ready(function() {
-  //LOCALSTORAGE TEMP STORE, UNTIL LOGIN FUNCTIONALITY.
-  localStorage.setItem("user", "testing123");
-
   //INIT THE NAVBAR
   $(".sidenav").sidenav();
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
+  $("select").formSelect();
 
   //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
@@ -17,22 +15,24 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
+  //Get locations spent at.
   fetch("/api/get/locations")
     .then(res => res.json())
     .then(result => {
       console.log(result);
       result.forEach(purchase => {
+        console.log(purchase);
+        let total = purchase.total;
         let address = purchase.Location.address;
         let long = purchase.Location.longitude;
         let lat = purchase.Location.latitude;
-        let item_name = purchase.item_name;
-        let item_price = purchase.amount_spent;
+
         let table = $("tbody");
-        table.append(`<tr><td>${address}</td><td>${item_name}</td><td>${item_price}</td></tr>`);
+        table.append(`<tr><td>${address}</td><td>${total}</td></tr>`);
 
         var marker = L.marker([lat, long]).addTo(myMap);
         marker.bindPopup(
-          `<b>${purchase.category}<div style="text-align: center;"></b><br><span>${purchase.item_name}</span><br><span>$${purchase.amount_spent}</span></div>`
+          `<b>${address}<div style="text-align: center;"></b><br><span>Total Spent To Date Here:</span><span><br>$${total}</span><br></div>`
         );
       });
     })

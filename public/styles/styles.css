@@ -5,6 +5,15 @@ html {
   height: 100%;
 }
 
+body {
+  margin: 0;
+  background-color: #f3f1ef;
+}
+
+nav {
+  background-color: #011229;
+}
+
 #weatherMap {
   text-align: center;
   width: 75%;
@@ -12,39 +21,20 @@ html {
 }
 
 .map-container {
-  margin-top: 2em;
+  margin-top: 5em;
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 10em;
+  margin-bottom: 5em;
 }
 
-body {
-  margin: 0;
-  background-color: #f3f1ef;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-select {
-  display: block;
-  width: 20%;
-  align-content: center;
-  float: right;
-  margin-right: 20px;
+.selectDiv {
+  width: 25%;
 }
 
 #text {
   font-size: 28px;
   font-weight: 700;
-}
-main {
-  flex: 1 0 auto;
-}
-
-nav {
-  background-color: #011229;
 }
 
 .page-footer {
@@ -78,7 +68,7 @@ nav {
 
 #chartDiv {
   display: flex;
-  margin-top: 20px;
+  margin: 10em 0;
 }
 
 #textdata {
@@ -196,4 +186,9 @@ nav {
   font-size: 20px;
   color: white;
   cursor:pointer; 
+}
+
+.leaflet-popup-content {
+  text-align: center;
+  padding: 1em;
 }
