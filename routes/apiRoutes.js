@@ -153,43 +153,43 @@ module.exports = function(app) {
   });
 
   //ADD AN EXPENSE
-  app.post("/api/add/expense", (req, resp) => {
-    let id = req.session.passport.user.id;
+  // app.post("/api/add/expense", (req, resp) => {
+  //   let id = req.session.passport.user.id;
 
-    // console.log(req.body.Address + ","+ " " + req.body.Country)
-    const Address = req.body.Address + "," + " " + req.body.Country;
-    const price = req.body.Amount;
-    const category = req.body.Category;
-    const item = req.body.itemName;
+  //   // console.log(req.body.Address + ","+ " " + req.body.Country)
+  //   const Address = req.body.Address + "," + " " + req.body.Country;
+  //   const price = req.body.Amount;
+  //   const category = req.body.Category;
+  //   const item = req.body.itemName;
 
-    googleMapsClient
-      .geocode({ address: Address })
-      .asPromise()
-      .then(response => {
-        const lat = response.json.results[0].geometry.location.lat;
-        const long = response.json.results[0].geometry.location.lng;
-        db.Location.create({
-          long: long,
-          lat: lat,
-          UserId: id
-        }).then(function(insert) {
-          let locId = insert.id;
-          db.Expense.create({
-            amount_spent: price,
-            category: category,
-            item_name: item,
-            UserId: id,
-            LocationId: locId
-          }).then(function(insert) {
-            //resp.sendStatus(200);
-            resp.redirect("/expense");
-          });
-        });
-      })
-      .catch(err => {
-        res.sendStatus(401);
-      });
-  });
+  //   googleMapsClient
+  //     .geocode({ address: Address })
+  //     .asPromise()
+  //     .then(response => {
+  //       const lat = response.json.results[0].geometry.location.lat;
+  //       const long = response.json.results[0].geometry.location.lng;
+  //       db.Location.create({
+  //         long: long,
+  //         lat: lat,
+  //         UserId: id
+  //       }).then(function(insert) {
+  //         let locId = insert.id;
+  //         db.Expense.create({
+  //           amount_spent: price,
+  //           category: category,
+  //           item_name: item,
+  //           UserId: id,
+  //           LocationId: locId
+  //         }).then(function(insert) {
+  //           //rredirectesp.sendStatus(200);
+  //           resp.("/expense");
+  //         });
+  //       });
+  //     })
+  //     .catch(err => {
+  //       res.sendStatus(401);
+  //     });
+  // });
 
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
