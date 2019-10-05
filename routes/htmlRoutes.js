@@ -85,6 +85,7 @@ module.exports = function(app) {
     let budgetLeft = 0;
     let fromDate;
     let toDate;
+    let status = true
     const Op = Sequelize.Op;
     db.Budget.findAll({
       where: {
@@ -114,7 +115,13 @@ module.exports = function(app) {
             sumExpense = parseFloat(res[i].dataValues.amount_spent) + parseFloat(sumExpense);
             budgetLeft = parseFloat(budgetLeft) - parseFloat(sumExpense);
           }
-          resp.render("budgetPage", { layout: "budget", budget, budgetLeft, loggedIn: true });
+          if(budgetLeft > 0){
+            status = true;
+          }
+          else{
+            status = false;
+          }
+          resp.render("budgetPage", { layout: "budget", budget, budgetLeft, loggedIn: true,status});
         });
       })
       .catch(err => {

@@ -4,6 +4,12 @@ $(document).ready(function() {
   $(".sidenav").css({ zIndex: 9999 });
   $(".datepicker").datepicker();
   $(".dropdown-trigger").dropdown();
+
+  $("#alert_close").click(function(){
+    $( "#alert_box" ).fadeOut( "slow", function() {
+    });
+  });
+
 });
     function validationBudget() {
       let amount = $("#amount").val();
