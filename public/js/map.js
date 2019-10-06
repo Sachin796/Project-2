@@ -31,7 +31,7 @@ $(document).ready(function() {
     if (locGroup) {
       locGroup.clearLayers();
     }
-    //Set default map view to last day.
+    //Set default date to view to last day.
     if (!date) {
       date = "day";
     }
@@ -68,6 +68,7 @@ $(document).ready(function() {
 
   $(document).on("change", "#selectday", e => {
     $($table).fadeOut();
+    $($table).html("");
     let date = e.target.value;
     getData(date);
   });

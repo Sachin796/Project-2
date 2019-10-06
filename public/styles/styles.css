@@ -28,10 +28,6 @@ nav {
   margin-bottom: 5em;
 }
 
-.selectDiv {
-  width: 25%;
-}
-
 #text {
   font-size: 28px;
   font-weight: 700;
@@ -199,4 +195,20 @@ th {
 .leaflet-popup-content {
   text-align: center;
   padding: 1em;
+}
+
+.tableDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.mb-5 {
+  margin-bottom: 10em;
+}
+
+/* breakpoints */
+@media only screen and (max-width: 600px) {
+  th {
+    min-width: 0;
+  }
 }
