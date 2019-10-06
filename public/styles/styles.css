@@ -179,13 +179,21 @@ nav {
   margin: 0;
 }
 
-#alert_close{
+.min-height-230 {
+  min-height: 230px !important;
+}
+
+th {
+  min-width: 420px;
+}
+
+#alert_close {
   position: absolute;
   right: 10px;
   top: 10px;
   font-size: 20px;
   color: white;
-  cursor:pointer; 
+  cursor: pointer;
 }
 
 .leaflet-popup-content {
