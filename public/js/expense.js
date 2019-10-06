@@ -4,14 +4,29 @@ $(document).ready(function() {
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
 
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+
   $(".expenseForm").submit(e => {
     e.preventDefault();
-    console.log("here1");
+    // Validation
     let address = $("#address").val();
     let country = $("#country").val();
     let category = $("#category").val();
     let itemName = $("#itemName").val();
     let amount = $("#amount").val();
+    if(amount < 0){
+      M.toast({html: "Please enter a valid expense amount"})
+      return false
+    } 
+    else if(amount === "" || address ===""|| country ==="" || itemName ===""|| category === null){
+      M.toast({html: "Please ensure all fields are populated"})
+      return false
+    }
+    else{
     let expenseData = {
       Address: address,
       Country: country,
@@ -20,7 +35,6 @@ $(document).ready(function() {
       itemName: itemName
     };
     console.log(expenseData);
-    console.log("here2");
     //Request
     $.ajax({
       url: "/api/add/expense", //give your url here
@@ -37,5 +51,9 @@ $(document).ready(function() {
         }
       }
     });
+  }
   });
+
+  
+  
 });
