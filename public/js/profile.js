@@ -14,6 +14,18 @@ $(document).ready(function() {
   $(".dropdown-trigger").dropdown();
   $("select").formSelect();
 
+  //Define global charts var(array of charts)
+  let chartObjArr = [];
+
+  //Ten color generate Array(Max categories?)
+  const tenRandColors = () => {
+    let tenColors = [];
+    for (var i = 0; i < 10; i++) {
+      tenColors.push(colorArray[Math.floor(Math.random() * colorArray.length)]);
+    }
+    return tenColors;
+  };
+
   //initial call for data.
   fetch("/api/expense")
     .then(res => res.json())
@@ -25,127 +37,33 @@ $(document).ready(function() {
         alert("NO data found");
       }
     });
+
+  //Create all charts.
   function createChart(result) {
-    let randomColorArray = [];
-    for (let i = 0; i < result.expenseArr.length; i++) {
-      randomColorArray.push(colorArray[Math.floor(Math.random() * colorArray.length)]);
-    }
-
-    //Start of Pi Chart
-    let expenseData = result.expenseArr.map(expense => {
-      return parseInt(expense);
-    });
-    let varChart = document.getElementById("mychart").getContext("2d");
-
+    //Chart Default Vals
     Chart.defaults.global.defaultFontFamily = "Lato";
     Chart.defaults.global.defaultFontFamily = 18;
     Chart.defaults.global.defaultFontFamily = "#777";
 
-    let popchart = new Chart(varChart, {
-      type: "pie", //bar horizontalBar pie line doughnut radar polarArea
-      data: {
-        labels: result.categoryArr,
-        datasets: [
-          {
-            data: expenseData,
-            backgroundColor: randomColorArray,
-            borderWidth: 1,
-            borderColor: "darkblue",
-            hoverBorderWidth: 3,
-            hoverBorderColor: "black"
-          }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: "Expenses",
-          fontsize: 25
-        },
+    //What types of tables
+    const charts = ["pie", "bar", "doughnut"];
 
-        legend: {
-          display: true,
-          position: "right",
-          labels: {
-            fontColor: "black"
-          }
-        },
-        options: {
-          animation: {
-            duration: 5000,
-            onProgress: function(animation) {
-              progress.value = animation.currentStep / animation.numSteps;
-            }
-          }
-        },
-        tooltips: {
-          enabled: true
-        }
-      }
+    //Expense data to int.
+    let expenseData = result.expenseArr.map(expense => {
+      return parseInt(expense);
     });
 
-    //CREATE BAR GRAPH
-    function createLineChart(result) {
-      let expenseData = result.expenseArr.map(expense => {
-        return parseInt(expense);
-      });
-      console.log(expenseData);
-      let varChart = document.getElementById("mychart1").getContext("2d");
-      console.log(result);
-      Chart.defaults.global.defaultFontFamily = "Lato";
-      Chart.defaults.global.defaultFontFamily = 18;
-      Chart.defaults.global.defaultFontFamily = "#777";
+    charts.forEach(chart => {
+      let randomColorArray = tenRandColors();
+      console.log(chart);
+      let varChart = document.getElementById(chart).getContext("2d");
 
-      let popchart1 = new Chart(varChart1, {
-        type: "bar", //bar horizontalBar pie line doughnut radar polarArea
+      let newChart = new Chart(varChart, {
+        type: chart, //bar horizontalBar pie line doughnut radar polarArea
         data: {
           labels: result.categoryArr,
           datasets: [
             {
-              data: [...expenseData],
-              backgroundColor: randomColorArray,
-              borderWidth: 1,
-              borderColor: "#777",
-              hoverBorderWidth: 3,
-              hoverBorderColor: "black"
-            }
-          ]
-        },
-        options: {
-          title: {
-            display: true,
-            text: "Expenses",
-            fontsize: 25
-          },
-          legend: {
-            display: false,
-            position: "right",
-            labels: {
-              fontColor: "black"
-            }
-          },
-          tooltips: {
-            enabled: true
-          }
-        }
-      });
-
-      //End of line chart
-      // Start of doughnut Chart
-
-      let varChart2 = document.getElementById("mychart2").getContext("2d");
-
-      Chart.defaults.global.defaultFontFamily = "Lato";
-      Chart.defaults.global.defaultFontFamily = 18;
-      Chart.defaults.global.defaultFontFamily = "#777";
-
-      let popchart2 = new Chart(varChart2, {
-        type: "doughnut", //bar horizontalBar pie line doughnut radar polarArea
-        data: {
-          labels: result.categoryArr,
-          datasets: [
-            {
-              label: "Population",
               data: expenseData,
               backgroundColor: randomColorArray,
               borderWidth: 1,
@@ -182,32 +100,31 @@ $(document).ready(function() {
           }
         }
       });
-
-      $(document).on("change", "select", function(e) {
-        popchart.destroy();
-        popchart1.destroy();
-        popchart2.destroy();
-      });
-    }
-
-    //oncChange handler for date dropdown
-    $(document).on("change", "select", function() {
-      let newdata = {
-        newdata: this.value
-      };
-
-      fetch("/api/profile", {
-        method: "post",
-        body: JSON.stringify(newdata), // data can be `string` or {object}!
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(result => result.json())
-        .then(res => {
-          console.log(JSON.stringify(res));
-          createChart(res);
-        });
+      chartObjArr.push(newChart);
     });
   }
+
+  //oncChange handler for date dropdown
+  $(document).on("change", "select", function() {
+    chartObjArr.forEach(chart => {
+      chart.destroy();
+    });
+
+    let newdata = {
+      newdata: this.value
+    };
+
+    fetch("/api/profile", {
+      method: "post",
+      body: JSON.stringify(newdata), // data can be `string` or {object}!
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(result => result.json())
+      .then(res => {
+        console.log(JSON.stringify(res));
+        createChart(res);
+      });
+  });
 }); //^^^EVERYTHING SHOULD BE IN HERE
