@@ -42,8 +42,8 @@ $(document).ready(function() {
   function createChart(result) {
     //Chart Default Vals
     Chart.defaults.global.defaultFontFamily = "Lato";
-    Chart.defaults.global.defaultFontFamily = 18;
-    Chart.defaults.global.defaultFontFamily = "#777";
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = "#777";
 
     //What types of tables
     const charts = ["pie", "bar", "doughnut"];

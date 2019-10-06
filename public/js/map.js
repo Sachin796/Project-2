@@ -19,7 +19,7 @@ $(document).ready(function() {
   //Define Global Vars
   let markerArray = [];
 
-  //NEW layerGroup of lcation markers.
+  // layerGroup of lcation markers.
   let locGroup;
 
   //Table body Element
