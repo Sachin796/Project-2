@@ -18,4 +18,13 @@ Financr allows users to:
 <img src="./public/img/Materalize.png" width="100" height="100"> 
 <img src="./public/img/heroku.png" width="100" height="100"> 
 
+## Creators
 
+Andrew
+https://github.com/afwebdev
+
+Sachin
+https://github.com/Sachin796
+
+Manjyot
+https://github.com/ManjyotThandi
