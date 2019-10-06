@@ -1,6 +1,6 @@
 let colorArray = []; //array fo storing random color
 
-//fetch json file
+//fetch colorsJSON (#hex color val array)
 fetch("./js/colors.json")
   .then(response => response.json())
   .then(json => {
@@ -48,12 +48,18 @@ $(document).ready(function() {
     //What types of tables
     const charts = ["pie", "bar", "doughnut"];
 
-    //Expense data to int.
+    //Expense data to integer
     let expenseData = result.expenseArr.map(expense => {
       return parseInt(expense);
     });
 
+    //for each defined chart from charts array, make a chart, and push that chart
+    //to global charObjArray Array. (You can then use .destroy over them via array iteration)
     charts.forEach(chart => {
+      let legendBoolean = true;
+      if (chart === "bar") {
+        legendBoolean = false;
+      }
       let randomColorArray = tenRandColors();
       console.log(chart);
       let varChart = document.getElementById(chart).getContext("2d");
@@ -81,7 +87,7 @@ $(document).ready(function() {
           },
 
           legend: {
-            display: true,
+            display: legendBoolean,
             position: "right",
             labels: {
               fontColor: "black"
@@ -114,6 +120,7 @@ $(document).ready(function() {
       newdata: this.value
     };
 
+    //Get new data (onChange)
     fetch("/api/profile", {
       method: "post",
       body: JSON.stringify(newdata), // data can be `string` or {object}!
@@ -121,10 +128,13 @@ $(document).ready(function() {
         "Content-Type": "application/json"
       }
     })
-      .then(result => result.json())
+      .then(result => {
+        return result.json();
+      })
       .then(res => {
-        console.log(JSON.stringify(res));
+        console.log(res);
         createChart(res);
       });
   });
+  //
 }); //^^^EVERYTHING SHOULD BE IN HERE
