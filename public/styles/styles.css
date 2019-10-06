@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
 .list-group-item {
   line-height: 2.5;
 }
@@ -6,6 +8,7 @@ html {
 }
 
 body {
+  font-family: "Lato", sans-serif;
   margin: 0;
   background-color: #f3f1ef;
 }
@@ -69,7 +72,6 @@ nav {
 #piechart,
 #doughnutchart {
   padding: 2em;
-  box-shadow: 0px 2px 2px grey;
 }
 
 .parallax-container {
