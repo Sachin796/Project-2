@@ -56,35 +56,20 @@ nav {
   padding: 4em;
 }
 
-#linechart {
-  box-shadow: 0px 2px 2px grey;
-  width: 30%;
-  margin-left: 30px;
-}
-
 #chartDiv {
-  display: flex;
   margin: 10em 0;
 }
 
 #textdata {
+  margin-bottom: 2em;
   text-align: center;
 }
 
-#piechart {
+#linechart,
+#piechart,
+#doughnutchart {
+  padding: 2em;
   box-shadow: 0px 2px 2px grey;
-  margin-left: 50px;
-  width: 30%;
-}
-
-#mychart2 {
-  margin: auto;
-}
-
-#doghnutchart {
-  box-shadow: 0px 2px 2px grey;
-  margin-left: 30px;
-  width: 30%;
 }
 
 .parallax-container {
@@ -179,8 +164,9 @@ nav {
   min-height: 230px !important;
 }
 
-th {
-  min-width: 420px;
+.min-height-300 {
+  position: relative;
+  min-height: 300px !important;
 }
 
 #alert_close {
