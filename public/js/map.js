@@ -4,6 +4,7 @@ $(document).ready(function() {
   $(".sidenav").css({ zIndex: 9999 });
   $(".dropdown-trigger").dropdown();
   $("select").formSelect();
+  //==============================
 
   //BUILD THE MAP
   let myMap = L.map("weatherMap").setView([43.6507, -79.347015], 9);
@@ -15,28 +16,62 @@ $(document).ready(function() {
     accessToken: "pk.eyJ1IjoiYWZ3ZWJkZXYiLCJhIjoiY2sxMDB2MTJyMDB6NDNocDJ5ZTRzem5yNCJ9.-GMQ7KKaj_kPsf4ONmj6uQ"
   }).addTo(myMap);
 
-  //Get locations spent at.
-  fetch("/api/get/locations")
-    .then(res => res.json())
-    .then(result => {
-      console.log(result);
-      result.forEach(purchase => {
-        console.log(purchase);
-        let total = purchase.total;
-        let address = purchase.Location.address;
-        let long = purchase.Location.longitude;
-        let lat = purchase.Location.latitude;
+  //Define Global Vars
+  let markerArray = [];
 
-        let table = $("tbody");
-        table.append(`<tr><td>${address}</td><td>${total}</td></tr>`);
+  // layerGroup of lcation markers.
+  let locGroup;
 
-        var marker = L.marker([lat, long]).addTo(myMap);
-        marker.bindPopup(
-          `<b>${address}<div style="text-align: center;"></b><br><span>Total Spent To Date Here:</span><span><br>$${total}</span><br></div>`
-        );
+  //Table body Element
+  let $table = $("tbody");
+
+  //Get Data and endpoint using date
+  const getData = date => {
+    //If we have a group already, delete it.
+    if (locGroup) {
+      locGroup.clearLayers();
+    }
+    //Set default date to view to last day.
+    if (!date) {
+      date = "day";
+    }
+
+    fetch(`/api/get/locations/${date}`)
+      .then(res => res.json())
+      .then(result => {
+        result.forEach(purchase => {
+          console.log(purchase);
+          let total = purchase.total;
+          let { address, longitude, latitude } = purchase.Location;
+          console.log(address, longitude, latitude);
+
+          //ADD TABLE DATA
+          $table.append(`<tr><td>${address}</td><td>$${total}</td></tr>`);
+          $($table).fadeIn();
+
+          var marker = new L.Marker([latitude, longitude]);
+          marker.bindPopup(`
+        <div>
+          <b><span>${address}</span></b>
+          <br><span>Total Spent Here: $${total}</span>
+        </div>`);
+          markerArray.push(marker);
+        });
+      })
+      .then(() => {
+        locGroup = new L.layerGroup(markerArray).addTo(myMap);
+      })
+      .catch(err => {
+        throw err;
       });
-    })
-    .catch(err => {
-      throw err;
-    });
-});
+  };
+
+  $(document).on("change", "#selectday", e => {
+    $($table).fadeOut();
+    $($table).html("");
+    let date = e.target.value;
+    getData(date);
+  });
+
+  getData();
+}); //END

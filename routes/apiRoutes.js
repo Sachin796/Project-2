@@ -10,6 +10,19 @@ const googleMapsClient = require("@google/maps").createClient({
 });
 
 module.exports = function(app) {
+  //Date Prototype(ADD # days --> Date.addDays(2) )
+  Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  };
+
+  Date.prototype.removeDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() - days);
+    return date;
+  };
+
   app.post("/api/profile", (req, res) => {
     //Define vars
     let id = req.session.passport.user.id;
@@ -25,10 +38,7 @@ module.exports = function(app) {
       let newday = newString.concat("-" + todaysDate);
       console.log("Todays date is" + newday);
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
@@ -60,15 +70,10 @@ module.exports = function(app) {
     //SELECTED = WEEK
     if (req.body.newdata == "week") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000))
-        .toISOString()
-        .split("T")[0];
+      const weekdate = new Date(new Date() - 7 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
 
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
@@ -98,21 +103,12 @@ module.exports = function(app) {
     //SELECTED = MONTH
     if (req.body.newdata == "month") {
       let todaysDate = new Date().toISOString().split("T")[0];
-      const previousMonthDate = new Date(
-        new Date() - 31 * (24 * 60 * 60 * 1000)
-      )
-        .toISOString()
-        .split("T")[0];
+      const previousMonthDate = new Date(new Date() - 31 * (24 * 60 * 60 * 1000)).toISOString().split("T")[0];
 
-      console.log(
-        `Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`
-      );
+      console.log(`Todays date is ${todaysDate} , prevmonthdate is ${previousMonthDate}`);
 
       db.Expense.findAll({
-        attributes: [
-          "category",
-          [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-        ],
+        attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
         where: {
           UserId: id,
           createdAt: {
@@ -146,10 +142,7 @@ module.exports = function(app) {
     let expenseArr = [];
     let categoryArr = [];
     db.Expense.findAll({
-      attributes: [
-        "category",
-        [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]
-      ],
+      attributes: ["category", [sequelize.fn("sum", sequelize.col("amount_spent")), "total"]],
       where: {
         UserId: id
         // createdAt: {
@@ -186,8 +179,48 @@ module.exports = function(app) {
 
   //GET LOCATIONS FROM USER IN DB API
   //SENDS BACK DATA BASED ON EXPENSE PURCHASE LOCATIONS IN JSON TO CLIENT.
-  app.get("/api/get/locations", (req, res) => {
+  app.get("/api/get/locations/:date", (req, res) => {
     let id = req.session.passport.user.id;
+    let date = req.params.date.toLowerCase();
+    if (!date) {
+      date = "day";
+    }
+    let dateOption = {};
+    let newDate = new Date();
+    let today = newDate.toISOString().split("T")[0];
+    console.log("TDAY: " + today);
+    // let dayx = newDate.addDays(1).toISOString().split("T")[0];
+    // console.log(today, dayx)
+
+    switch (date) {
+      case "day":
+        dateOption = [
+          newDate
+            .removeDays(1)
+            .toISOString()
+            .split("T")[0],
+          today
+        ];
+        break;
+      case "week":
+        dateOption = [
+          newDate
+            .removeDays(7)
+            .toISOString()
+            .split("T")[0],
+          today
+        ];
+        break;
+      case "month":
+        dateOption = [
+          newDate
+            .removeDays(30)
+            .toISOString()
+            .split("T")[0],
+          today
+        ];
+        break;
+    }
 
     db.Expense.findAll({
       attributes: [
@@ -197,7 +230,12 @@ module.exports = function(app) {
         "Location.address"
       ],
       include: [{ model: db.Location, required: true }],
-      where: { UserId: id },
+      where: {
+        UserId: id,
+        createdAt: {
+          [Op.between]: dateOption
+        }
+      },
       group: ["Location.address", "Location.latitude", "Location.longitude"]
     }).then(data => {
       res.json(data);

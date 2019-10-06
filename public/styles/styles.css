@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
 .list-group-item {
   line-height: 2.5;
 }
@@ -6,6 +8,7 @@ html {
 }
 
 body {
+  font-family: "Lato", sans-serif;
   margin: 0;
   background-color: #f3f1ef;
 }
@@ -26,10 +29,6 @@ nav {
   display: flex;
   justify-content: center;
   margin-bottom: 5em;
-}
-
-.selectDiv {
-  width: 25%;
 }
 
 #text {
@@ -60,35 +59,19 @@ nav {
   padding: 4em;
 }
 
-#linechart {
-  box-shadow: 0px 2px 2px grey;
-  width: 30%;
-  margin-left: 30px;
-}
-
 #chartDiv {
-  display: flex;
   margin: 10em 0;
 }
 
 #textdata {
+  margin-bottom: 2em;
   text-align: center;
 }
 
-#piechart {
-  box-shadow: 0px 2px 2px grey;
-  margin-left: 50px;
-  width: 30%;
-}
-
-#mychart2 {
-  margin: auto;
-}
-
-#doghnutchart {
-  box-shadow: 0px 2px 2px grey;
-  margin-left: 30px;
-  width: 30%;
+#linechart,
+#piechart,
+#doughnutchart {
+  padding: 2em;
 }
 
 .parallax-container {
@@ -179,16 +162,41 @@ nav {
   margin: 0;
 }
 
-#alert_close{
+.min-height-230 {
+  min-height: 230px !important;
+}
+
+.min-height-300 {
+  position: relative;
+  min-height: 300px !important;
+}
+
+#alert_close {
   position: absolute;
   right: 10px;
   top: 10px;
   font-size: 20px;
   color: white;
-  cursor:pointer; 
+  cursor: pointer;
 }
 
 .leaflet-popup-content {
   text-align: center;
   padding: 1em;
+}
+
+.tableDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.mb-5 {
+  margin-bottom: 10em;
+}
+
+/* breakpoints */
+@media only screen and (max-width: 600px) {
+  th {
+    min-width: 0;
+  }
 }
