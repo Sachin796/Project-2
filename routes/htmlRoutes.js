@@ -51,12 +51,13 @@ module.exports = function(app) {
     db.Expense.findAll({
       where: {
         UserId: id
-      }
+      },
+      order: [['createdAt', 'DESC']]
     })
       .then(res => {
         console.log("THIS IS THE QUERY RESULT ----------------------------------------" + res[0].dataValues);
         // loop through results and push to correct objects.
-        for (i = 0; i < res.length; i++) {
+        for (i = 0; i < 5; i++) {
           let amtSpent = res[i].dataValues.amount_spent;
           let category = res[i].dataValues.category;
           let itemName = res[i].dataValues.item_name;

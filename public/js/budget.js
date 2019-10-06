@@ -15,11 +15,13 @@ $(document).ready(function() {
       let amount = $("#amount").val();
       let fromDate = $("#fromDate").val();
       let toDate =$("#toDate").val();
+      var d1 = new Date(fromDate);
+      var d2 = new Date(toDate)
       if(amount < 0){
         M.toast({html: "Please enter a valid budget amount"})
         return false
       }
-      else if(toDate < fromDate){
+      else if(d2.getTime() < d1.getTime()){
         M.toast({html: "To Date cannot be before From Date"})
         return false
       }
