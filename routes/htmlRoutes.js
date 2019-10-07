@@ -52,23 +52,33 @@ module.exports = function(app) {
       where: {
         UserId: id
       },
-      limit: 5, 
-      order: [['createdAt', 'DESC']]
+
+      limit: 5,
+      order: [["createdAt", "DESC"]]
+
     })
       .then(res => {
         console.log("THIS IS THE QUERY RESULT ----------------------------------------" + res[0].dataValues);
         // loop through results and push to correct objects.
-        for (i = 0; i < res.length; i++) {
+
+        for (let i = 0; i < res.length; i++) {
+
           let amtSpent = res[i].dataValues.amount_spent;
           let category = res[i].dataValues.category;
           let itemName = res[i].dataValues.item_name;
           expense.push({ amount: amtSpent, category: category, itemName: itemName });
         }
 
+        // res.forEach(item=>{
+        //   console.log(item);
+        // })
+
         resp.render("expensePage", { layout: "expense", expense, loggedIn: true });
       })
       .catch(err => {
-        console.log(err)
+
+        console.log(err);
+
         console.log("HELLO");
         resp.render("expensePage", { layout: "expense", loggedIn: true });
       });
@@ -88,7 +98,7 @@ module.exports = function(app) {
     let budgetLeft = 0;
     let fromDate;
     let toDate;
-    let status = true
+    let status = true;
     const Op = Sequelize.Op;
     db.Budget.findAll({
       where: {
@@ -118,13 +128,12 @@ module.exports = function(app) {
             sumExpense = parseFloat(res[i].dataValues.amount_spent) + parseFloat(sumExpense);
             budgetLeft = parseFloat(budgetLeft) - parseFloat(sumExpense);
           }
-          if(budgetLeft > 0){
+          if (budgetLeft > 0) {
             status = true;
-          }
-          else{
+          } else {
             status = false;
           }
-          resp.render("budgetPage", { layout: "budget", budget, budgetLeft, loggedIn: true,status});
+          resp.render("budgetPage", { layout: "budget", budget, budgetLeft, loggedIn: true, status });
         });
       })
       .catch(err => {
