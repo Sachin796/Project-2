@@ -52,6 +52,7 @@ module.exports = function(app) {
       where: {
         UserId: id
       },
+      limit: 5,
       order: [["createdAt", "DESC"]]
     })
       .then(res => {
@@ -63,6 +64,10 @@ module.exports = function(app) {
           let itemName = res[i].dataValues.item_name;
           expense.push({ amount: amtSpent, category: category, itemName: itemName });
         }
+
+        // res.forEach(item=>{
+        //   console.log(item);
+        // })
 
         resp.render("expensePage", { layout: "expense", expense, loggedIn: true });
       })
