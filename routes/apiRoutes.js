@@ -276,7 +276,7 @@ module.exports = function(app) {
           }).then(function(insert) {
             console.log("ALL DONE INSERTS");
             //res.sendStatus(200);
-            // res.redirect("/expense");
+            res.redirect("/expense");
           });
         });
       })
