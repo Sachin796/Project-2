@@ -1,8 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+​
 <h1 style="text-align: center;">Expenses</h1>
 <div class="container">
   <div class="row">
     <div class="col s12">
-      <form action="/api/add/expense" method="POST" class="expenseForm form-style-9">
+      <form action="/api/add/expense" onsubmit="return validationExpense()" method="POST"
+        class="expenseForm form-style-9">
         <ul>
           <li>
             <input type="text" name="Address" id="address"
@@ -12,33 +16,42 @@
           </li>
           <li>
             <input type="number" name="Amount" id="amount"
-              class="field-style field-split align-left" placeholder="Amount" />
-            <input type="text" name="Category" id="category"
-              class="field-style field-split align-right" placeholder="Category" />
-          </li>
-          <li>
+              class="field-style field-split align-left" placeholder="Amount"
+              step=".01" />
             <input type="text" name="itemName" id="itemName"
-              class="field-style field-full align-none" placeholder="Name" />
+              class="field-style field-split align-right" placeholder="Name" />
           </li>
           <li>
-            <input type="submit" value="Send Message" />
+            <select name="category" id="category"
+              class="field-style field-split align-right">
+              <option value="Category" selected disabled>Category</option>
+              <option value="Food">Food</option>
+              <option value="Sports">Sports</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Outdoors">Outdoors</option>
+              <option value="Other">Other</option>
+            </select>
+            ​
+          </li>
+          <li>
+            <input type="submit" value="Add Expense" />
           </li>
         </ul>
       </form>
     </div>
   </div>
-
+  ​
   <div class="row">
     <div class="col s12">
       <table class="centered">
         <thead>
           <tr>
             <th>Amount Spent</th>
-            <th>Item Name</th>
             <th>Item Category</th>
+            <th>Item Name</th>
           </tr>
         </thead>
-
+        ​
         <tbody>
           {{#each expense}}
           <tr>
