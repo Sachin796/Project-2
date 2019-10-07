@@ -60,6 +60,7 @@ $(document).ready(function() {
       })
       .then(() => {
         locGroup = new L.layerGroup(markerArray).addTo(myMap);
+        markerArray = [];
       })
       .catch(err => {
         throw err;
