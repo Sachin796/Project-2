@@ -52,12 +52,13 @@ module.exports = function(app) {
       where: {
         UserId: id
       },
+      limit: 5, 
       order: [['createdAt', 'DESC']]
     })
       .then(res => {
         console.log("THIS IS THE QUERY RESULT ----------------------------------------" + res[0].dataValues);
         // loop through results and push to correct objects.
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < res.length; i++) {
           let amtSpent = res[i].dataValues.amount_spent;
           let category = res[i].dataValues.category;
           let itemName = res[i].dataValues.item_name;
@@ -67,6 +68,7 @@ module.exports = function(app) {
         resp.render("expensePage", { layout: "expense", expense, loggedIn: true });
       })
       .catch(err => {
+        console.log(err)
         console.log("HELLO");
         resp.render("expensePage", { layout: "expense", loggedIn: true });
       });
