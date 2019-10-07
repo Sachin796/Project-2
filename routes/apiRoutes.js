@@ -199,7 +199,10 @@ module.exports = function(app) {
             .removeDays(1)
             .toISOString()
             .split("T")[0],
-          today
+          newDate
+            .addDays(2)
+            .toISOString()
+            .split("T")[0]
         ];
         break;
       case "week":
@@ -238,6 +241,7 @@ module.exports = function(app) {
       },
       group: ["Location.address", "Location.latitude", "Location.longitude"]
     }).then(data => {
+      console.log(date.location);
       res.json(data);
     });
   });
